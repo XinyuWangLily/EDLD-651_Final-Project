@@ -21,6 +21,7 @@ library(broom)
 library(here)
 library(readr)
 library(readxl)
+library(stringr)
 ```
 
 # Load data
@@ -42,19 +43,36 @@ CESDC <- read_csv(here("data", "CESDC_Wave1.csv"))
 
 ```{r}
 # Race/ethnicity category
-# Clean the data frame: identify subjects reported multiple racial groups and rename them to "multi-racial"
+# Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
+Race_clean <- Race %>%
+  mutate(
+    W1_Ethnicity = as.character(W1_Ethnicity),
 
+    # recode if the cell contains more than one category
+    W1_Ethnicity = if_else(
+      str_detect(W1_Ethnicity, ","),   # contains ,
+      "g.Multi-racial",
+      W1_Ethnicity
+    )
+  )
 
 # Average age between session 1 & 2
+## We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1. 
+W1_mean_age <- Age %>% 
+  mutate(W1_mean_age = (w1s1_age + w1s2_age)/2)
 
+# Report demographic statistics
+## Combine W1_ethnicity and W1_mean_age and report the descriptive statistics in APA style table
 
-# Report in table
 
 ```
 
 # Consolidata data frame to answer the research questions
 ```{r}
-# Select and combine ERQ_reappraisal_total, ERQ_suppression-total, CES_DC_total_75perc
+# Select and combine ERQ_reappraisal_total, ERQ_suppression-total, CES_DC_total_75perc: 
+df <- CESDC %>% 
+  left_join(ERQ, by= 'tagid') %>%
+  select('tagid', 'CES_DC_total_75perc', 'ERQ_reappraisal_total', 'ERQ_suppression_total')
 
 ```
 
@@ -63,6 +81,8 @@ CESDC <- read_csv(here("data", "CESDC_Wave1.csv"))
 ## Does emotion repraissal predict adolescent depression symptoms?
 
 ```{r}
+model1 <- lm(df$CES_DC_total_75perc ~ df$ERQ_reappraisal_total)
+summary(model1)
 
 ```
 
@@ -70,14 +90,23 @@ CESDC <- read_csv(here("data", "CESDC_Wave1.csv"))
 ## Does emotion suppression predict adolescent depression symptoms?
 
 ```{r}
+model2 <- lm(df$CES_DC_total_75perc ~ df$ERQ_suppression_total)
+summary(model2)
 
 ```
+# Multiple regression analysis for depression - ERQ
+```{r}
+model3 <- lm(df$CES_DC_total_75perc ~ df$ERQ_reappraisal_total + df$ERQ_suppression_total)
+summary(model3)
+
+```
+
+
 
 # Resutl report (table/plot)
 ```{r}
 
 ```
-
 
 # Discussion
 
