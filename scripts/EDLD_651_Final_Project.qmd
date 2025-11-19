@@ -2,25 +2,84 @@
 title: "EDLD_651_Final_Project"
 format: html
 editor: visual
+author: "xxxx"
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+# Load packages
 
 ```{r}
-1 + 1
+library(tidyverse)
+library(psych)       # For descriptive statistics
+library(car)         # For assumption testing
+library(lmtest)      # For regression diagnostics
+library(ggplot2)     # For visualization
+library(interactions) # For moderation analysis
+library(flextable) # For APA style tables
+library(jtools)        # APA-style visualization
+library(ggpubr)        # For arranging multiple plots
+library(broom)
+library(here)
+library(readr)
+library(readxl)
 ```
 
-You can add options to executable code like this
+# Load data
 
 ```{r}
-#| echo: false
-2 * 2
+# Demographic
+Age <- read_csv(here("data", "TAG_age_session_dates_4waves.csv"))
+Race <- read_excel(here("data", "TAG_W1_Race_Ethnicity.xlsx"))
+
+# Emotion Regulation(ERQ)
+ERQ <- read_csv(here("data", "ERQ_Wave1.csv"))
+
+# Adolescent Depression(CESDC)
+CESDC <- read_csv(here("data", "CESDC_Wave1.csv"))
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Participant demographic
+
+```{r}
+# Race/ethnicity category
+# Clean the data frame: identify subjects reported multiple racial groups and rename them to "multi-racial"
+
+
+# Average age between session 1 & 2
+
+
+# Report in table
+
+```
+
+# Consolidata data frame to answer the research questions
+```{r}
+# Select and combine ERQ_reappraisal_total, ERQ_suppression-total, CES_DC_total_75perc
+
+```
+
+
+# RQ 1
+## Does emotion repraissal predict adolescent depression symptoms?
+
+```{r}
+
+```
+
+# RQ 2
+## Does emotion suppression predict adolescent depression symptoms?
+
+```{r}
+
+```
+
+# Resutl report (table/plot)
+```{r}
+
+```
+
+
+# Discussion
+
+
+
