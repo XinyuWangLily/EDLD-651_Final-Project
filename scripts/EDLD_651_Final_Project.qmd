@@ -1,114 +1,246 @@
 ---
-title: "EDLD_651_Final_Project"
-format: html
-editor: visual
-author: "xxxx"
+title: "Final Project"
+authors: "Xinyu (Lily) Wang, Sophie Hartford, Everett Mahaffy"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    embed-resources: true
+    highlight-style: tango
+execute:
+  eval: true
+  echo: true
+warning: false
+message: false
 ---
 
 # Load packages
 
 ```{r}
 library(tidyverse)
-library(psych)       # For descriptive statistics
-library(car)         # For assumption testing
-library(lmtest)      # For regression diagnostics
-library(ggplot2)     # For visualization
-library(interactions) # For moderation analysis
-library(flextable) # For APA style tables
-library(jtools)        # APA-style visualization
-library(ggpubr)        # For arranging multiple plots
-library(broom)
+library(flextable)
 library(here)
-library(readr)
 library(readxl)
-library(stringr)
+library(modelsummary)
+library(janitor)
+library(performance)
 ```
 
 # Load data
 
 ```{r}
 # Demographic
-Age <- read_csv(here("data", "TAG_age_session_dates_4waves.csv"))
-Race <- read_excel(here("data", "TAG_W1_Race_Ethnicity.xlsx"))
+age <- read_csv(here("data", "TAG_age_session_dates_4waves.csv"))
+age <- clean_names(age)
+
+race <- read_excel(here("data", "TAG_W1_Race_Ethnicity.xlsx"))
+race <- clean_names(race)
 
 # Emotion Regulation(ERQ)
-ERQ <- read_csv(here("data", "ERQ_Wave1.csv"))
+erq <- read_csv(here("data", "ERQ_Wave1.csv"))
+erq <- erq %>% 
+       clean_names() %>% 
+       distinct(tagid, .keep_all = TRUE)
 
 # Adolescent Depression(CESDC)
-CESDC <- read_csv(here("data", "CESDC_Wave1.csv"))
+cesdc <- read_csv(here("data", "CESDC_Wave1.csv"))
+cesdc <- clean_names(cesdc)
 
 ```
 
-# Participant demographic
+# Participant demographics
+## Race/ethnicity category
+### Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
 
 ```{r}
-# Race/ethnicity category
-# Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
-Race_clean <- Race %>%
+race_clean <- race %>%
   mutate(
-    W1_Ethnicity = as.character(W1_Ethnicity),
-
-    # recode if the cell contains more than one category
-    W1_Ethnicity = if_else(
-      str_detect(W1_Ethnicity, ","),   # contains ,
-      "g.Multi-racial",
-      W1_Ethnicity
+    w1_ethnicity = as.character(w1_ethnicity),
+    w1_ethnicity = if_else(
+      str_detect(w1_ethnicity, ","),
+      "g. Multi-racial",
+      w1_ethnicity
     )
   )
+```
 
-# Average age between session 1 & 2
+# Age
 ## We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1. 
-W1_mean_age <- Age %>% 
-  mutate(W1_mean_age = (w1s1_age + w1s2_age)/2)
 
-# Report demographic statistics
-## Combine W1_ethnicity and W1_mean_age and report the descriptive statistics in APA style table
-
-
-```
-
-# Consolidata data frame to answer the research questions
 ```{r}
-# Select and combine ERQ_reappraisal_total, ERQ_suppression-total, CES_DC_total_75perc: 
-df <- CESDC %>% 
-  left_join(ERQ, by= 'tagid') %>%
-  select('tagid', 'CES_DC_total_75perc', 'ERQ_reappraisal_total', 'ERQ_suppression_total')
+age <- age %>% 
+  mutate(W1_mean_age = (w1s1_age + w1s2_age)/2) 
 
+# Check mean age for sample
+age_summary <- age %>%
+  summarize(
+    mean_W1_age = mean(W1_mean_age, na.rm = TRUE),
+    sd_W1_age   = sd(W1_mean_age, na.rm = TRUE),
+  )
+print(age_summary)
 ```
 
+# Join all data frames
+
+```{r}
+df <- erq %>% 
+  left_join(cesdc, by= 'tagid')
+
+df <- df %>% 
+     left_join(age, by = 'tagid')
+
+df <- df %>% 
+     left_join(race_clean, by = 'tagid') %>% 
+     select(tagid, erq_reappraisal_total, erq_suppression_total, ces_dc_total_75perc, W1_mean_age, w1_ethnicity, 
+            w1s1_date, w1s1_age, w1s2_date, w1s2_age, w2s1_date, w2s1_age, w2s2_date, w2s2_age, 
+            w3s1_date, w3s1_age, w3s2_date, w3s2_age, w4s1_date, w4s1_age, w4s2_date, w4s2_age
+            )
+
+df <- df %>%
+  rename(
+    wave1_session1_date = w1s1_date,
+    wave1_session1_age  = w1s1_age,
+    wave1_session2_date = w1s2_date,
+    wave1_session2_age  = w1s2_age,
+
+    wave2_session1_date = w2s1_date,
+    wave2_session1_age  = w2s1_age,
+    wave2_session2_date = w2s2_date,
+    wave2_session2_age  = w2s2_age,
+
+    wave3_session1_date = w3s1_date,
+    wave3_session1_age  = w3s1_age,
+    wave3_session2_date = w3s2_date,
+    wave3_session2_age  = w3s2_age,
+
+    wave4_session1_date = w4s1_date,
+    wave4_session1_age  = w4s1_age,
+    wave4_session2_date = w4s2_date,
+    wave4_session2_age  = w4s2_age
+  )
+```
+
+# Tidy and filter
+
+```{r}
+# Tidy
+df2 <- df %>%
+  mutate(across(starts_with("wave"), as.character))
+
+df_long <- df2 %>%
+  pivot_longer(
+    cols = starts_with("wave"),
+    names_to = c("wave", "session", "info"),
+    names_sep = "_",
+    values_to = "value"
+  ) %>%
+  mutate(
+    wave    = parse_number(wave),
+    session = parse_number(session)
+  )
+
+df_tidy <- df_long %>%
+  pivot_wider(
+    names_from = info,
+    values_from = value
+  )
+
+# Filter
+df_tidy <- df_tidy %>% 
+  filter(wave == 1, session == 1)
+```
+
+# Sample Summary Statistics
+
+```{r}
+df_names <- df_tidy %>% 
+    select(-wave, -session) %>% 
+    rename(
+    Reappraisal       = erq_reappraisal_total,
+    Suppression       = erq_suppression_total,
+    Depression        = ces_dc_total_75perc,
+    Age               = W1_mean_age,
+    Ethnicity         = w1_ethnicity
+    )
+datasummary_skim(df_names,
+                 title = "Table 1. Sample Descriptive Statistics")
+```
 
 # RQ 1
-## Does emotion repraissal predict adolescent depression symptoms?
+
+## Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
 
 ```{r}
-model1 <- lm(df$CES_DC_total_75perc ~ df$ERQ_reappraisal_total)
-summary(model1)
-
+rq1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total)
+check_model(rq1)
 ```
 
 # RQ 2
-## Does emotion suppression predict adolescent depression symptoms?
+
+## Is higher emotion suppression associated with higher depression symptoms in adolescent girls?
 
 ```{r}
-model2 <- lm(df$CES_DC_total_75perc ~ df$ERQ_suppression_total)
-summary(model2)
-
-```
-# Multiple regression analysis for depression - ERQ
-```{r}
-model3 <- lm(df$CES_DC_total_75perc ~ df$ERQ_reappraisal_total + df$ERQ_suppression_total)
-summary(model3)
-
+rq2 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total)
+check_model(rq2)
 ```
 
+# Exploratory 
 
+## Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
 
-# Resutl report (table/plot)
 ```{r}
+ex1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total + df_tidy$erq_reappraisal_total)
+check_model(ex1)
+```
 
+## Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
+
+```{r}
+ex2 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total * df_tidy$W1_mean_age)
+check_model(ex2)
+
+ex3 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total * df_tidy$W1_mean_age)
+check_model(ex3)
+```
+
+# Results
+
+## Tables
+```{r}
+modelsummary(
+  list(
+    "Reappraisal" = rq1,
+    "Suppression" = rq2),
+  coef_map = c(
+    "(Intercept)"                     = "Intercept",
+    "df_tidy$erq_reappraisal_total"   = "Reappraisal (ERQ)",
+    "df_tidy$erq_suppression_total"   = "Suppression (ERQ)"
+  ),
+  stars = TRUE,
+  title = "Table 2. Model Summary for RQ1 and RQ2"
+  )
+
+modelsummary(
+  list(
+    "Suppression + Reappraisal" = ex1,
+    "Reappraisal × Age Interaction" = ex2,
+    "Suppression × Age Interaction" = ex3),
+    coef_map = c(
+    "(Intercept)"                     = "Intercept",
+    "df_tidy$erq_reappraisal_total"   = "Reappraisal (ERQ)",
+    "df_tidy$erq_suppression_total"   = "Suppression (ERQ)",
+    "df_tidy$erq_reappraisal_total:df_tidy$W1_mean_age" = "Reappraisal x Age",
+    "df_tidy$erq_suppression_total:df_tidy$W1_mean_age" = "Suppression x Age"),
+  stars = TRUE,
+  title = "Table 3. Model Summaries for Multiple Regression and Interaction Models"
+  )
+```
+
+## Plots
+```{r}
+## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both
 ```
 
 # Discussion
-
-
-
+## [ to do later ]
