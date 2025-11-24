@@ -25,6 +25,7 @@ library(readxl)
 library(modelsummary)
 library(janitor)
 library(performance)
+library(ggplot2)
 ```
 
 # Load data
@@ -239,7 +240,19 @@ modelsummary(
 
 ## Plots
 ```{r}
-## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both
+## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both. I added the summaries to assess correlation between both suppression and reappraisal and depression
+ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
+  geom_point(color="Dodgerblue3")+
+  geom_smooth(method = lm, color="Aquamarine3")+
+  labs(x="Reappraisal", y="Depression")
+ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
+  geom_point(color="Dodgerblue3")+
+  geom_smooth(method = lm, color="Aquamarine3")+
+  labs(x="Suppression", y="Depression")
+Suppression<-lm(ces_dc_total_75perc ~ erq_suppression_total, data = df_tidy)
+summary(Suppression)
+Depression<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
+summary(Depression)
 ```
 
 # Discussion
