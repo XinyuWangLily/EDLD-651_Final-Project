@@ -4,16 +4,36 @@ authors: "Xinyu (Lily) Wang, Sophie Hartford, Everett Mahaffy"
 format:
   revealjs:
     embed-resources: true
-    highlight-style: tango
+    smaller: true
+    theme: night
+    slide-number: true
 execute:
   eval: true
   echo: true
-  fig-width: 12
-  fig-height: 7
 warning: false
 message: false
-
+bibliography: references.bib
+csl: apa.csl
 ---
+
+# Study/Data Info
+
+We are utilizing data from the longitudinal study “Transitions in Adolescent Girls,” [@barendse2019] specifically focusing on data from baseline (Wave 1). This dataset includes 174 participants who were 10-13 at the baseline. Our variables of interest are emotion regulation strategy use and depressive symptoms. These were measured using the Emotion Regulation Questionnaire (ERQ) [@gross2003] and the Center for Epidemiological Studies Depression Scale for Children (CES- DC). [@weissman1980] These are continuous scales which provide total scores for reappraisal and suppression (ERQ) and depressive symptoms (CES-DC).
+
+# Topic Overview
+
+Adolescence is a pivotal period of development characterized by rapid physical, social, and emotional change [@guyer2016; @nelson2016] Early adolescence has been proposed as a particularly crucial period for the development of emotion regulation [@silvers2022], the processes by which individuals moderate and modulate their emotional experiences and expression [@gross1998; @gross2015]. Additionally, adolescents face heightened vulnerability to the depressive symptoms [@kessler2007], with depression rates spiking between early and middle adolescence and even steeper rates for girls [@hankin2007].
+
+# Present Study
+
+Drawing upon the longitudinal TAG dataset, we sought to examine whether two particularly salient and well-studied emotion regulation strategies (reappraisal and suppression) were associated with depressive symptoms in early adolescent girls (age 10-13).
+
+These findings will serve as a foundation for future studies investigating these relations across time utilizing all six waves of the data.
+
+Research Questions: 
+
+-   Is higher reappraisal use associated with lower depressive symptoms in adolescent girls?
+-   Is higher suppression use associated with higher depressive symptoms in adolescent girls?
 
 # Load packages
 
@@ -25,10 +45,11 @@ library(readxl)
 library(modelsummary)
 library(janitor)
 library(performance)
-library(ggplot2)
 ```
 
 # Load data
+
+We first had to load in four separate datasets to join which contained age, race, emotion regulation, and depressive symptoms:
 
 ```{r}
 # Demographic
@@ -50,15 +71,11 @@ cesdc <- clean_names(cesdc)
 
 ```
 
-# Study Info
-
-We will be utilizing data from the longitudinal study “Transitions in Adolescent Girls,” (Barendse et al., 2020) specifically focusing on data from baseline (Wave 1). This dataset includes 174 participants who were 10-13 at the baseline. Our variables of interest are emotion regulation strategy use and depressive symptoms. These were measured using the Emotion Regulation Questionnaire (ERQ; John & Gross, 2003) and the Center for Epidemiological Studies Depression Scale for Children (CES- DC, Weissman et al., 1980). These are continuous scales which provide total scores for reappraisal and suppression (ERQ) and depressive symptoms (CES-DC).
-
 # Participant Demographics
 
 Race/ethnicity category
 
-Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
+First we had to clean the race/ethnicity data by identifying subjects reported multiple racial categories and rename them to "Multi-racial"
 
 ```{r}
 race_clean <- race %>%
@@ -76,7 +93,7 @@ race_clean <- race %>%
 
 Age
 
-We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1
+Each wave consisted of two sessions, so we had to calculate the average age between sessions:
 
 ```{r}
 age <- age %>% 
@@ -91,7 +108,7 @@ age_summary <- age %>%
 print(age_summary)
 ```
 
-# Join all data frames
+# Joining all datasets
 
 ```{r}
 df <- erq %>% 
@@ -106,7 +123,13 @@ df <- df %>%
             w1s1_date, w1s1_age, w1s2_date, w1s2_age, w2s1_date, w2s1_age, w2s2_date, w2s2_age, 
             w3s1_date, w3s1_age, w3s2_date, w3s2_age, w4s1_date, w4s1_age, w4s2_date, w4s2_age
             )
+```
 
+# Renaming
+
+In order to tidy the data, we first had to rename each wave/session/date/age variable
+
+```{r}
 df <- df %>%
   rename(
     wave1_session1_date = w1s1_date,
@@ -161,9 +184,11 @@ df_final <- df_tidy %>%
   filter(wave == 1, session == 1)
 ```
 
+# Results
+
 # Cohort Plot
 
-```{r}
+```{r echo=FALSE}
 ggplot(df_tidy, aes(x = age, y = tagid)) +
   geom_line(aes(group = tagid), size = .5, alpha = .4) +
   geom_point(aes(color = as.factor(wave)), size = 2) +
@@ -196,52 +221,45 @@ df_names <- df_tidy %>%
 ```
 
 # Summary Stats Table
+
 ```{r}
 datasummary_skim(df_names,
                  title = "Table 1. Sample Descriptive Statistics")
 ```
 
-# RQ 1
+# Primary RQs
 
 Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
 
 ```{r}
 rq1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total)
-check_model(rq1)
 ```
-
-# RQ 2
 
 Is higher emotion suppression associated with higher depression symptoms in adolescent girls?
 
 ```{r}
 rq2 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total)
-check_model(rq2)
 ```
 
-# Exploratory 
+# Exploratory RQs:
 
 Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
 
 ```{r}
 ex1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total + df_tidy$erq_reappraisal_total)
-check_model(ex1)
 ```
 
 Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
 
 ```{r}
 ex2 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total * df_tidy$W1_mean_age)
-check_model(ex2)
 
 ex3 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total * df_tidy$W1_mean_age)
-check_model(ex3)
 ```
 
-# Results
+# Primary RQ Model Summaries
 
-Primary RQ Tables
-```{r}
+```{r echo=FALSE}
 modelsummary(
   list(
     "Reappraisal" = rq1,
@@ -252,13 +270,14 @@ modelsummary(
     "df_tidy$erq_suppression_total"   = "Suppression (ERQ)"
   ),
   stars = TRUE,
+  gof_omit = ".*",
   title = "Table 2. Model Summary for RQ1 and RQ2"
   )
 ```
 
 # Exploratory Results
 
-```{r}
+```{r echo=FALSE}
 modelsummary(
   list(
     "Suppression + Reappraisal" = ex1,
@@ -271,13 +290,16 @@ modelsummary(
     "df_tidy$erq_reappraisal_total:df_tidy$W1_mean_age" = "Reappraisal x Age",
     "df_tidy$erq_suppression_total:df_tidy$W1_mean_age" = "Suppression x Age"),
   stars = TRUE,
+  gof_omit = ".*",
   title = "Table 3. Model Summaries for Multiple Regression and Interaction Models"
   )
 ```
 
 # Plot 1
 
-```{r}
+This plot shows the relation between reappraisal and depressive symptoms
+
+```{r echo=FALSE}
 ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
@@ -286,9 +308,18 @@ ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
 
 # Plot 2
 
-```{r}
+This plot shows the relation between suppression and depressive symptoms
+
+```{r echo=FALSE}
 ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
   labs(x="Suppression", y="Depression")
 ```
+
+# Reflections
+
+-   Most of our time was spent cleaning/managing the data - the models were quick!
+-   Pivoting can be challenging and renaming can help
+
+# References
