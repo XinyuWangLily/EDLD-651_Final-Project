@@ -171,10 +171,10 @@ datasummary_skim(df_names,
 # RQ 1
 
 ## Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
-
+# this is where it stops working and will not let me render - cw 
 ```{r}
 rq1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total)
-check_model(rq1)
+check_model(rq1) 
 ```
 
 # RQ 2
