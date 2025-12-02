@@ -232,7 +232,7 @@ ggplot(df_tidy, aes(x = age, y = tagid)) +
 
 ```{r}
 df_names <- df_tidy %>% 
-    select(-wave, -session) %>% 
+    select(-wave, -session, -age) %>% 
     rename(
     Reappraisal       = erq_reappraisal_total,
     Suppression       = erq_suppression_total,
