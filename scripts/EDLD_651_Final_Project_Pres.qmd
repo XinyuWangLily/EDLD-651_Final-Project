@@ -194,11 +194,14 @@ df_tidy <- df_long %>%
   pivot_wider(
     names_from = info,
     values_from = value
-  )
+  ) %>% 
+  mutate(age = as.numeric(age))
+
 
 # Filter
 df_final <- df_tidy %>% 
   filter(wave == 1, session == 1)
+
 ```
 
 # Results
@@ -220,7 +223,9 @@ ggplot(df_tidy, aes(x = age, y = tagid)) +
     legend.position = "top",
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank()
-  )
+  ) +
+ scale_x_continuous(breaks = seq(10, 20, by = 0.5))
+
 ```
 
 # Sample Summary Statistics
@@ -338,6 +343,7 @@ ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
 
 -   Most of our time was spent cleaning/managing the data - the models were quick!
 -   Pivoting can be challenging and renaming can help
+-   Don't forget to make sure your variables are numeric after pivoting
 
 # Future Directions
 - Investigate longitudinal association between emotion regulation and depressive symptoms among adolescent girls.
