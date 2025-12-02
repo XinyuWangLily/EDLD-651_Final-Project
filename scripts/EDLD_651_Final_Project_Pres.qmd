@@ -24,13 +24,15 @@ We are utilizing data from the longitudinal study “Transitions in Adolescent G
 
 Adolescence is a pivotal period of development characterized by rapid physical, social, and emotional change [@guyer2016; @nelson2016] Early adolescence has been proposed as a particularly crucial period for the development of emotion regulation [@silvers2022], the processes by which individuals moderate and modulate their emotional experiences and expression [@gross1998; @gross2015]. Additionally, adolescents face heightened vulnerability to the depressive symptoms [@kessler2007], with depression rates spiking between early and middle adolescence and even steeper rates for girls [@hankin2007].
 
+![](images/Adolescent depression_3.jpg){fig-align="center"}
+
 # Present Study
 
 Drawing upon the longitudinal TAG dataset, we sought to examine whether two particularly salient and well-studied emotion regulation strategies (reappraisal and suppression) were associated with depressive symptoms in early adolescent girls (age 10-13).
 
 These findings will serve as a foundation for future studies investigating these relations across time utilizing all six waves of the data.
 
-Research Questions: 
+Research Questions:
 
 -   Is higher reappraisal use associated with lower depressive symptoms in adolescent girls?
 -   Is higher suppression use associated with higher depressive symptoms in adolescent girls?
@@ -87,6 +89,21 @@ race_clean <- race %>%
       w1_ethnicity
     )
   )
+```
+
+# Race/ethnicity distribution
+```{r}
+race_clean %>%
+  count(w1_ethnicity) %>%
+  ggplot(aes(x = fct_reorder(w1_ethnicity, n), y = n, fill = w1_ethnicity)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Distribution of Race/Ethnicity in Sample",
+    x = "Race/Ethnicity",
+    y = "Number of Participants"
+  ) +
+  theme_minimal(base_size = 13)
 ```
 
 # Participant demographics cont.
@@ -321,5 +338,10 @@ ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
 
 -   Most of our time was spent cleaning/managing the data - the models were quick!
 -   Pivoting can be challenging and renaming can help
+
+# Future Directions
+- Investigate longitudinal association between emotion regulation and depressive symptoms among adolescent girls.
+- Examine potential moderators and mediators such as brain circuit, puberty stage, and socioeconomic factors. 
+- Test the reproducibility of the results using other dataset with larger sample size.
 
 # References
