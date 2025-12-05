@@ -201,7 +201,7 @@ datasummary_skim(df_names,
 ## Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
 
 ```{r}
-rq1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total)
+rq1<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
 check_model(rq1)
 ```
 
@@ -210,7 +210,7 @@ check_model(rq1)
 ## Is higher emotion suppression associated with higher depression symptoms in adolescent girls?
 
 ```{r}
-rq2 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total)
+rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_tidy)
 check_model(rq2)
 ```
 
@@ -226,10 +226,10 @@ check_model(ex1)
 ## Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
 
 ```{r}
-ex2 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_reappraisal_total * df_tidy$W1_mean_age)
+ex2 <- lm(ces_dc_total_75perc ~ erq_reappraisal_total * W1_mean_age, data = df_tidy)
 check_model(ex2)
 
-ex3 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total * df_tidy$W1_mean_age)
+ex3 <- lm(ces_dc_total_75perc ~ erq_suppression_total * W1_mean_age, data = df_tidy)
 check_model(ex3)
 ```
 
@@ -243,8 +243,8 @@ modelsummary(
     "Suppression" = rq2),
   coef_map = c(
     "(Intercept)"                     = "Intercept",
-    "df_tidy$erq_reappraisal_total"   = "Reappraisal (ERQ)",
-    "df_tidy$erq_suppression_total"   = "Suppression (ERQ)"
+    "erq_reappraisal_total"   = "Reappraisal (ERQ)",
+    "erq_suppression_total"   = "Suppression (ERQ)"
   ),
   stars = TRUE,
   title = "Table 2. Model Summary for RQ1 and RQ2"
@@ -257,10 +257,10 @@ modelsummary(
     "Suppression × Age Interaction" = ex3),
     coef_map = c(
     "(Intercept)"                     = "Intercept",
-    "df_tidy$erq_reappraisal_total"   = "Reappraisal (ERQ)",
-    "df_tidy$erq_suppression_total"   = "Suppression (ERQ)",
-    "df_tidy$erq_reappraisal_total:df_tidy$W1_mean_age" = "Reappraisal x Age",
-    "df_tidy$erq_suppression_total:df_tidy$W1_mean_age" = "Suppression x Age"),
+    "erq_reappraisal_total"   = "Reappraisal (ERQ)",
+    "erq_suppression_total"   = "Suppression (ERQ)",
+    "erq_reappraisal_total:W1_mean_age" = "Reappraisal x Age",
+    "erq_suppression_total:W1_mean_age" = "Suppression x Age"),
   stars = TRUE,
   title = "Table 3. Model Summaries for Multiple Regression and Interaction Models"
   )
@@ -281,6 +281,10 @@ Suppression<-lm(ces_dc_total_75perc ~ erq_suppression_total, data = df_tidy)
 summary(Suppression)
 Depression<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
 summary(Depression)
+```
+##Interaction Plot
+```{r}
+interaction.plot()
 ```
 
 # Discussion
