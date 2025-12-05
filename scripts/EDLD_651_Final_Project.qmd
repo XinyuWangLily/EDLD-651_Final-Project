@@ -219,7 +219,7 @@ check_model(rq2)
 ## Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
 
 ```{r}
-ex1 <- lm(df_tidy$ces_dc_total_75perc ~ df_tidy$erq_suppression_total + df_tidy$erq_reappraisal_total)
+ex1 <- lm(ces_dc_total_75perc ~ erq_suppression_total + erq_reappraisal_total, data = df_tidy)
 check_model(ex1)
 ```
 
@@ -284,7 +284,73 @@ summary(Depression)
 ```
 ##Interaction Plot
 ```{r}
-interaction.plot()
+df_final <- df_tidy %>%
+  filter(wave == 1, session == 1) %>%
+  mutate(
+    age_group_2 = case_when(
+      W1_mean_age >= 10 & W1_mean_age < 12 ~ "10–11",
+      W1_mean_age >= 12 & W1_mean_age <= 13 ~ "12–13",
+      TRUE ~ NA_character_
+    ))
+#Reappraisal and Depression
+ggplot(
+  df_final%>%filter(!is.na(age_group_2)),
+  aes(
+    x=erq_reappraisal_total,
+    y=ces_dc_total_75perc,
+    linetype = age_group_2
+  )
+)+
+  geom_smooth(
+    method = "lm",
+    se=TRUE,
+    fullrange=TRUE,
+    color="Aquamarine3",
+    linewidth=1,
+    alpha=0.15
+  )+
+  labs(
+    x="Reappraisal",
+    y="Depression",
+    linetype="Age Group",
+    title = "Interaction of Reappraisal and Age Predicting Depression Symptoms"
+  )+
+  scale_linetype_manual(values = c("solid","dashed"))+
+  theme_classic(base_size = 18)+
+  theme(
+    legend.position = "bottom",
+    legend.key = element_blank()
+  )
+#Suppression and Depression
+ggplot(
+  df_final %>% filter(!is.na(age_group_2)),
+  aes(
+    x = erq_suppression_total,
+    y = ces_dc_total_75perc,
+    linetype = age_group_2
+  )
+) +
+  geom_smooth(
+    method    = "lm",
+    se        = TRUE,
+    fullrange = TRUE,
+    color     = "Aquamarine3",
+    linewidth = 1,
+    alpha     = 0.15
+  ) +
+  labs(
+    x   = "Suppression",
+    y   = "Depression",
+    linetype = "Age Group",
+    title = "Interaction of Suppression and Age Predicting Depression Symptoms"
+  ) +
+  scale_linetype_manual(values = c("solid", "dashed")) +
+  theme_classic(base_size = 18) +
+  theme(
+    legend.position = "bottom",
+    legend.key      = element_blank()
+  )
+
 ```
 
 # Discussion
