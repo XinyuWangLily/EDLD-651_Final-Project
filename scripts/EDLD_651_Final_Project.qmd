@@ -13,11 +13,14 @@ execute:
   echo: true
 warning: false
 message: false
+scrollable: true
+#I remember from your slides there was some trouble showing the full table without it being cut off, the scrollable:true should fix that. I know it isn't directly related to your code here but I thought it'd be helpful to see!
 ---
 
 # Load packages
 
 ```{r}
+#| label: Loading Packages
 library(tidyverse)
 library(flextable)
 library(here)
@@ -31,6 +34,8 @@ library(ggplot2)
 # Load data
 
 ```{r}
+#| label: Loading in data
+
 # Demographic
 age <- read_csv(here("data", "TAG_age_session_dates_4waves.csv"))
 age <- clean_names(age)
@@ -55,6 +60,7 @@ cesdc <- clean_names(cesdc)
 ### Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
 
 ```{r}
+#| label: Cleaning data
 race_clean <- race %>%
   mutate(
     w1_ethnicity = as.character(w1_ethnicity),
@@ -70,6 +76,7 @@ race_clean <- race %>%
 ## We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1. 
 
 ```{r}
+#| label: Cleaning data cont. 
 age <- age %>% 
   mutate(W1_mean_age = (w1s1_age + w1s2_age)/2) 
 
@@ -85,6 +92,8 @@ print(age_summary)
 # Join all data frames
 
 ```{r}
+#| label: Tidying data
+
 df <- erq %>% 
   left_join(cesdc, by= 'tagid')
 
@@ -125,6 +134,7 @@ df <- df %>%
 # Tidy and filter
 
 ```{r}
+#| label: Tidying data cont. 
 # Tidy
 df2 <- df %>%
   mutate(across(starts_with("wave"), as.character))
@@ -157,9 +167,10 @@ df_final <- df_tidy %>%
 
 # Results
 
-# Cohort Plot
+*Cohort Plot*
 
 ```{r echo=FALSE}
+#| label: Cohort plot
 ggplot(df_tidy, aes(x = age, y = tagid)) +
   geom_line(aes(group = tagid), size = .5, alpha = .4) +
   geom_point(aes(color = as.factor(wave)), size = 2) +
@@ -183,6 +194,7 @@ ggplot(df_tidy, aes(x = age, y = tagid)) +
 # Sample Summary Statistics
 
 ```{r}
+#| label: Sample Summary Statistics 
 df_names <- df_tidy %>% 
     select(-wave, -session) %>% 
     rename(
@@ -198,45 +210,99 @@ datasummary_skim(df_names,
 
 # RQ 1
 
-## Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
+*Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?*
 
 ```{r}
+#| label: Linear regression 1
+
 rq1<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
-check_model(rq1)
+check_model(rq1,
+  size_dot = 1,
+  size_line = 0.5,
+  size_title = 8,
+  size_axis_title = 5,
+  alpha = 0.1,
+  alpha_dot = 0.1,
+  base_size = 8)
 ```
 
 # RQ 2
 
-## Is higher emotion suppression associated with higher depression symptoms in adolescent girls?
+*Is higher emotion suppression associated with higher depression symptoms in adolescent girls?*
 
 ```{r}
+#| label: Linear regression 2
+
 rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_tidy)
-check_model(rq2)
+
+#I noticed the model checks visuals looked a bit crowded, so I added in some code to all the model_check() to make things a bit more spaced out! 
+check_model(rq2,
+  size_dot = 1,
+  size_line = 0.5,
+  size_title = 8,
+  size_axis_title = 5,
+  alpha = 0.1,
+  alpha_dot = 0.1,
+  base_size = 8)
+
+
 ```
 
 # Exploratory 
 
-## Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
+*Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?*
 
 ```{r}
+#| label: Exploratory Linear regression 3
+
 ex1 <- lm(ces_dc_total_75perc ~ erq_suppression_total + erq_reappraisal_total, data = df_tidy)
-check_model(ex1)
+check_model(ex1,
+  size_dot = 1,
+  size_line = 0.5,
+  size_title = 8,
+  size_axis_title = 5,
+  alpha = 0.1,
+  alpha_dot = 0.1,
+  base_size = 8)
 ```
 
-## Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
+*Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?*
 
 ```{r}
+#| label: Moderation
+
+library(gtsummary)
+
 ex2 <- lm(ces_dc_total_75perc ~ erq_reappraisal_total * W1_mean_age, data = df_tidy)
-check_model(ex2)
+check_model(ex2,
+  size_dot = 1,
+  size_line = 0.5,
+  size_title = 8,
+  size_axis_title = 5,
+  alpha = 0.1,
+  alpha_dot = 0.1,
+  base_size = 8)
 
 ex3 <- lm(ces_dc_total_75perc ~ erq_suppression_total * W1_mean_age, data = df_tidy)
-check_model(ex3)
+check_model(ex3,
+  size_dot = 1,
+  size_line = 0.5,
+  size_title = 8,
+  size_axis_title = 5,
+  alpha = 0.1,
+  alpha_dot = 0.1,
+  base_size = 8)
+
+#The plots look great, but if you wanted to also show a table for your regression results, here's some code below to do that. I used library(gtsummary) to get this in. 
+ex3 |> 
+  gtsummary::tbl_regression()
 ```
 
 # Results
 
 ## Tables
 ```{r}
+#| label: Results
 modelsummary(
   list(
     "Reappraisal" = rq1,
@@ -268,6 +334,8 @@ modelsummary(
 
 ## Plots
 ```{r}
+#| label: Plots
+
 ## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both. I added the summaries to assess correlation between both suppression and reappraisal and depression
 ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
@@ -282,8 +350,10 @@ summary(Suppression)
 Depression<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
 summary(Depression)
 ```
-##Interaction Plot
+#Interaction Plot
 ```{r}
+#| label: Interaction plot
+
 df_final <- df_tidy %>%
   filter(wave == 1, session == 1) %>%
   mutate(
@@ -313,7 +383,7 @@ ggplot(
     x="Reappraisal",
     y="Depression",
     linetype="Age Group",
-    title = "Interaction of Reappraisal and Age Predicting Depression Symptoms"
+    title = "Plot 1: Interaction of Reappraisal and Age Predicting Depression Symptoms"
   )+
   scale_linetype_manual(values = c("solid","dashed"))+
   theme_classic(base_size = 18)+
@@ -342,7 +412,7 @@ ggplot(
     x   = "Suppression",
     y   = "Depression",
     linetype = "Age Group",
-    title = "Interaction of Suppression and Age Predicting Depression Symptoms"
+    title = "Plot 2: Interaction of Suppression and Age Predicting Depression Symptoms"
   ) +
   scale_linetype_manual(values = c("solid", "dashed")) +
   theme_classic(base_size = 18) +
@@ -350,6 +420,7 @@ ggplot(
     legend.position = "bottom",
     legend.key      = element_blank()
   )
+
 
 ```
 
