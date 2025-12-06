@@ -15,6 +15,26 @@ warning: false
 message: false
 ---
 
+First off, great work Xinyu, Sophie, and Everett! Interesting topic, too. Alrighty, let’s get to it!
+
+[**Areas of Strength**]{.underline}
+
+1.  Great project structure with easy-to-follow sections. Makes it easy to reproduce as well.
+
+<!-- -->
+
+2.  Good combo of using Tidyverse with here/readxl/janitor for loading and cleaning purposes.
+
+<!-- -->
+
+3.  Clean and clear visualizations with labeled axes to better understand relationships.
+
+<!-- -->
+
+4.  Nice reporting with linear models as they are fit and with summaries and tables to better present the results.
+
+*Kindly find the rest of my comments at the very end.*
+
 # Load packages
 
 ```{r}
@@ -51,7 +71,9 @@ cesdc <- clean_names(cesdc)
 ```
 
 # Participant demographics
+
 ## Race/ethnicity category
+
 ### Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
 
 ```{r}
@@ -67,7 +89,8 @@ race_clean <- race %>%
 ```
 
 # Age
-## We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1. 
+
+## We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1.
 
 ```{r}
 age <- age %>% 
@@ -179,7 +202,6 @@ ggplot(df_tidy, aes(x = age, y = tagid)) +
 
 ```
 
-
 # Sample Summary Statistics
 
 ```{r}
@@ -214,7 +236,7 @@ rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_tidy)
 check_model(rq2)
 ```
 
-# Exploratory 
+# Exploratory
 
 ## Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
 
@@ -236,6 +258,7 @@ check_model(ex3)
 # Results
 
 ## Tables
+
 ```{r}
 modelsummary(
   list(
@@ -267,6 +290,7 @@ modelsummary(
 ```
 
 ## Plots
+
 ```{r}
 ## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both. I added the summaries to assess correlation between both suppression and reappraisal and depression
 ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
@@ -282,7 +306,9 @@ summary(Suppression)
 Depression<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
 summary(Depression)
 ```
+
 ##Interaction Plot
+
 ```{r}
 df_final <- df_tidy %>%
   filter(wave == 1, session == 1) %>%
@@ -354,4 +380,19 @@ ggplot(
 ```
 
 # Discussion
-## [ to do later ]
+
+## \[ to do later \]
+
+[**Things to Learn From**]{.underline}
+
+1.  As mentioned earlier, really good combination of code-folding, which I honestly had not thought about for my own code, as well as inline outputs and a clean table of contents. This makes sharing results that much easier, especially when you code and write-up.
+2.  Running summary() and check_model(), instead of just lm(), makes readable tables and outputs, which is good analytical practice to learn. A sort of fit, diagnose, visualize, and report pattern.
+
+[**Areas for Potential Improvement**]{.underline}
+
+*Writing this section, acknowledging the fact that I do not claim to know more about R than any of you, and these are simply potential ways for improvement :)*
+
+1.  The regression outputs show “(80 observations deleted due to missingness)”. The script could first report how many rows/variables are missing, then explain exclusion versus imputation decisions (e.g., drop_na() vs impute), and finally, there could be sensitivity checks. Perhaps add a short table or skimr summary so readers know the scope of missing data.
+2.  There appear to be repeated steps (data joins/tidy sequences/plotting code). You want to convert recurring patterns into small helper functions (e.g., make_scatter(df, x, y, xlab, ylab)) and add concise comments describing each major choice as to why transform or filter or certain covariates were included. This could help to improve maintainability and help viewers follow your reasoning.
+
+Overall, great work! We are going to need all we have learned for years to come.
