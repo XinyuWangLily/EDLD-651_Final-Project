@@ -202,7 +202,8 @@ datasummary_skim(df_names,
 
 ```{r}
 rq1<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
-check_model(rq1)
+summary(rq1)
+#check_model(rq1)
 ```
 
 # RQ 2
@@ -211,7 +212,8 @@ check_model(rq1)
 
 ```{r}
 rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_tidy)
-check_model(rq2)
+summary(rq2)
+#check_model(rq2)
 ```
 
 # Exploratory 
@@ -220,17 +222,20 @@ check_model(rq2)
 
 ```{r}
 ex1 <- lm(ces_dc_total_75perc ~ erq_suppression_total + erq_reappraisal_total, data = df_tidy)
-check_model(ex1)
+summary(ex1)
+#check_model(ex1)
 ```
 
 ## Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
 
 ```{r}
 ex2 <- lm(ces_dc_total_75perc ~ erq_reappraisal_total * W1_mean_age, data = df_tidy)
-check_model(ex2)
+summary(ex2)
+#check_model(ex2)
 
 ex3 <- lm(ces_dc_total_75perc ~ erq_suppression_total * W1_mean_age, data = df_tidy)
-check_model(ex3)
+summary(ex3)
+#check_model(ex3)
 ```
 
 # Results
@@ -272,11 +277,11 @@ modelsummary(
 ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
-  labs(x="Reappraisal", y="Depression")
+  labs(x="Reappraisal", y="Depression", title = "Figure 1. Association between cognitive reappraisal and depressive symptoms")
 ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
-  labs(x="Suppression", y="Depression")
+  labs(x="Suppression", y="Depression", title = "Figure 2. Association between expressive suppression and depressive sympotms")
 Suppression<-lm(ces_dc_total_75perc ~ erq_suppression_total, data = df_tidy)
 summary(Suppression)
 Depression<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
@@ -313,7 +318,7 @@ ggplot(
     x="Reappraisal",
     y="Depression",
     linetype="Age Group",
-    title = "Interaction of Reappraisal and Age Predicting Depression Symptoms"
+    title = "Figure 3.a. Interaction of Reappraisal and Age Predicting Depression Symptoms"
   )+
   scale_linetype_manual(values = c("solid","dashed"))+
   theme_classic(base_size = 18)+
@@ -342,7 +347,7 @@ ggplot(
     x   = "Suppression",
     y   = "Depression",
     linetype = "Age Group",
-    title = "Interaction of Suppression and Age Predicting Depression Symptoms"
+    title = "Figure 3.b. Interaction of Suppression and Age Predicting Depression Symptoms"
   ) +
   scale_linetype_manual(values = c("solid", "dashed")) +
   theme_classic(base_size = 18) +
