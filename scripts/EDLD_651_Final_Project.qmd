@@ -347,7 +347,7 @@ ex3_int_t <- coef(summary(ex3))["erq_suppression_total:W1_mean_age", "t value"]
 
 ## Emotion Regulation and Depression
 
-The results of associations between emotion regulation strategies and depression are reported in Table 2. The association between cognitive reappraisal and depression is shown in Figure 1. A linear regression model was estimated predicting depressive symptoms from cognitive reappraisal. The overall model was significant, *F*(1, `r rq1_df2`) = `r round(rq1_f, 2)`, *p* \< .001, and accounted for approximately `r round(rq1_r2, 2)` of the variance in depressive symptoms (*R*² = `r round(rq1_r2, 2)`). Cognitive reappraisal significantly predicted depressive symptoms, such that greater use of reappraisal was associated with lower symptom severity, *b* = `r round(rq1_b, 2)`, *SE* = `r round(rq1_se, 2)`, *t* = `r round(rq1_t, 2)`, *p* \< .001.
+The results of associations between emotion regulation strategies and depression are reported in Table 2. The association between cognitive reappraisal and depression is shown in Figure 1. A linear regression model was estimated predicting depressive symptoms from cognitive reappraisal. The overall model was significant, *F*(1, `r rq1_df2`) = `r round(rq1_f, 2)`, *p* \< .001, and accounted for approximately `r round(rq1_r2, 2)*100`% of the variance in depressive symptoms (*R*² = `r round(rq1_r2, 2)`). Cognitive reappraisal significantly predicted depressive symptoms, such that greater use of reappraisal was associated with lower symptom severity, *b* = `r round(rq1_b, 2)`, *SE* = `r round(rq1_se, 2)`, *t* = `r round(rq1_t, 2)`, *p* \< .001.
 
 The association between expressive suppression and depression is shown in Table 2. A linear regression was conducted to assess the relation between expressive suppression and depressive symptoms. The model was significant, *F*(1, `r rq2_df2`) = `r round(rq2_f, 2)`, *p* \< .001, accounting for about `r round(rq2_r2, 2)*100`% of the variance in depressive symptoms (*R*² = `r round(rq2_r2, 2)`). Expressive suppression significantly predicted depressive symptoms, with higher suppression associated with higher symptom scores, *b* = `r round(rq2_b, 2)`, *SE* = `r round(rq2_se, 2)`, *t* = `r round(rq2_t, 2)`, *p* \< .001.
 
@@ -372,7 +372,7 @@ modelsummary(
 ```{r}
 ## Plots
 
-ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
+ggplot(df_final, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
   labs(x="Reappraisal", y="Depression", title = "Association between cognitive reappraisal and depressive symptoms") +
@@ -384,7 +384,7 @@ ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
 
 ```{r}
 
-ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
+ggplot(df_final,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
   labs(x="Suppression", y="Depression", title = "Association between expressive suppression and depressive sympotms") + 
@@ -396,7 +396,7 @@ ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
 
 The results of exploratory analysis are reported in Table 3. A multiple linear regression was conducted to examine whether expressive suppression and cognitive reappraisal independently predicted depressive symptoms. The overall model was significant, *F*(2, `r ex1_df2`) = `r round(ex1_f, 2)`, *p* \< .001, and explained approximately `r round(ex1_r2, 2)*100`% of the variance in depressive symptoms (*R*² = `r round(ex1_r2, 2)`). Expressive suppression emerged as a significant positive predictor, *b* = `r round(ex1_b_supp, 2)`, *SE* = `r round(ex1_se_supp, 2)`, *t* = `r round(ex1_t_supp, 2)`, *p* \< .001. Cognitive reappraisal was a significant negative predictor, *b* = `r round(ex1_b_reapp, 2)`, *SE* = `r round(ex1_se_reapp, 2)`, *t* = `r round(ex1_t_reapp, 2)`, *p* \< .001. These results suggest that suppression and reappraisal make independent and opposing contributions to depressive symptoms in early adolescent girls.
 
-To test whether age moderated these associations, two interaction models were estimated. The interaction plots are shown in Figure 3. In the first model, cognitive reappraisal, age, and their interaction were entered as predictors. The overall model was significant, *F*(3, `r ex2_df2`) = `r round(ex2_f, 2)`, *p* \< .001, explaining `r round(ex2_r2, 2)*100`% of the variance. Greater reappraisal use predicted lower depressive symptoms, *b* = `r round(ex2_b_reapp, 2)`, *SE* = `r round(ex2_se_reapp, 2)`, *t* = `r round(ex2_t_reapp, 2)`, *p* \< .05, whereas age was not a significant predictor, *p* \> .05. The Reappraisal × Age interaction was **not** statistically significant, *b* = `r round(ex2_int_b, 2)`, *SE* = `r round(ex2_int_se, 2)`, *t* = `r round(ex2_int_t, 2)`, *p* \> .05, suggesting that the strength of the association between reappraisal and depressive symptoms did not differ by adolescent age.
+To test whether age moderated these associations, two interaction models were estimated. The interaction plots are shown in Figure 3. In the first model, cognitive reappraisal, age, and their interaction were entered as predictors. The overall model was significant, *F*(3, `r ex2_df2`) = `r round(ex2_f, 2)`, *p* \< .001, explaining `r round(ex2_r2, 2)*100`% of the variance. Greater reappraisal use predicted lower depressive symptoms, *b* = `r round(ex2_b_reapp, 2)`, *SE* = `r round(ex2_se_reapp, 2)`, *t* = `r round(ex2_t_reapp, 2)`, *p* \< .05, whereas age was not a significant predictor, *p* \> .05. The Reappraisal × Age interaction was not statistically significant, *b* = `r round(ex2_int_b, 2)`, *SE* = `r round(ex2_int_se, 2)`, *t* = `r round(ex2_int_t, 2)`, *p* \> .05, suggesting that the strength of the association between reappraisal and depressive symptoms did not differ by adolescent age.
 
 A second moderation model examined whether age moderated the association between expressive suppression and depressive symptoms. The model was significant overall, *F*(3, `r ex3_df2`) = `r round(ex3_f, 2)`, *p* \< .001, accounting for `r round(ex3_r2, 2)*100`% of the variance. However, neither suppression nor age significantly predicted depressive symptoms, and the Suppression × Age interaction was non-significant (*p* \> .05), indicating that age did not moderate the relation between expressive suppression and depressive symptoms.
 
