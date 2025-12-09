@@ -3,8 +3,6 @@ title: "Final Project"
 authors: "Xinyu (Lily) Wang, Sophie Hartford, Everett Mahaffy"
 format:
   html:
-    code-fold: true
-    code-summary: "Show the code"
     toc: true
     embed-resources: true
     highlight-style: tango
@@ -13,7 +11,17 @@ execute:
   echo: false
 warning: false
 message: false
+bibliography: references.bib
+csl: apa.csl
 ---
+
+# The Association Between Emotion Regulation Strategies and Depressive Symptoms among Adolescent Girls
+
+## Abstract
+
+Adolescence is a developmental period marked by heightened emotional reactivity and increasing vulnerability to depression, particularly among girls. Emotion regulation (ER) strategies such as cognitive reappraisal and expressive suppression are known correlates of mental health in older adolescents and adults. Yet, less is known about how these strategies relate to depressive symptoms during early adolescence. The present study examined associations between ER strategies and depressive symptoms in a sample of 174 adolescent girls aged 10–13 from the Transitions in Adolescent Girls (TAG) study. Linear regression models showed that greater use of cognitive reappraisal was associated with lower depressive symptoms, whereas greater use of expressive suppression was associated with higher depressive symptoms. These effects remained significant in a multiple regression model including both ER strategies. Exploratory moderation analyses revealed that age moderated the association between reappraisal and depressive symptoms, with the protective effect of reappraisal diminishing slightly among older adolescents. In contrast, age did not moderate the suppression–depression link. Findings highlight early adolescence as a critical window for promoting adaptive ER skills and reducing depression risk, underscoring the importance of early prevention and intervention efforts.
+
+*Keywords: Adolescent depression, emotion regulation, developmental timing*
 
 ```{r}
 
@@ -81,12 +89,12 @@ age_summary <- age %>%
     mean_W1_age = mean(W1_mean_age, na.rm = TRUE),
     sd_W1_age   = sd(W1_mean_age, na.rm = TRUE),
   )
-print(age_summary)
+#print(age_summary)
 ```
 
+```{r}
 # Join all data frames
 
-```{r}
 df <- erq %>% 
   left_join(cesdc, by= 'tagid')
 
@@ -124,7 +132,6 @@ df <- df %>%
   )
 ```
 
-
 ```{r}
 # Tidy
 df2 <- df %>%
@@ -156,6 +163,29 @@ df_final <- df_tidy %>%
 
 ```
 
+# Introduction
+
+## Depression in Adolescent Girls
+   Major depressive disorder (MDD) and depressive symptoms are among the most significant mental health concerns affecting adolescents (Benton et al., 2021). Measured in Years Lived with Disability (YLD), depression is one of the leading causes of disability worldwide, contributing significantly to the global burden of disease (Reddy, 2010). The Institute for Health Metrics and Evaluation (2019) reported that depression had become the second leading cause of disability, with 605.67 YLDs per 100,000 in 2019. 
+   
+   The issue has become critical among adolescents. According to the National Institute of Mental Health (2023), in 2021, the prevalence of MDD among adolescents reached 5 million, accounting for 20.1% of the U.S. population aged 12–17. The prevalence was higher among adolescent females (29.2%) compared to adolescent males (11.5%). MDD is significantly associated with a range of developmental outcomes, such as educational attainment (Breslau et al., 2008; Breslau et al., 2011; Lee et al., 2009), early childbearing (Marcus & Heringhausen, 2009), and occupational functioning and age at marriage (Fakhari, et al., 2020), implying that MDD is associated with adverse health outcomes and long-term impairment, particularly when it begins in adolescence. Given its high prevalence and far-reaching consequences, it is critical to identify the mechanisms, as well as the risk and resilience factors, that contribute to the onset and progression of depressive symptoms in adolescence.
+
+## Emotion Regulation Strategies
+   Although adolescents are, on average, more often happy than unhappy (Larson et al., 2002; McLaughlin et al., 2015), several critical emotional changes occur during adolescence (Coe-Odess et al., 2019). Adolescents show greater variability in daily affect (Larson et al., 2002; Maciejeweski et al., 2017), higher levels of negative affect, and lower levels of positive affect compared to younger children (Abitante et al., 2022; Griffith et al., 2021). These changes in affect likely place increased demands on adolescents’ ability to manage such emotions, underscoring the importance of effective ER skills in adolescence. These shifts appear to occur between early and middle adolescence, highlighting a potential sensitive period for intervention.
+   
+   ER strategies differ markedly in their effectiveness. Strategies such as reappraisal, acceptance, and distraction reliably reduce negative affect and enhance positive affect (Boemo et al., 2022; Wante et al., 2018), whereas rumination, expressive suppression, and worry are typically linked to increases in negative affect (Boemo et al., 2022). Among these, cognitive reappraisal and expressive suppression are two of the most widely studied strategies, and both have been strongly implicated in mental health outcomes. Cognitive reappraisal involves reframing an emotional stimulus and redirecting attention to the emotional scenario to change its emotional impact (Tory et al., 2018). While expressive suppression involves the inhibition of overt expression of emotion (Srivastava et al., 2014). 
+   
+## Emotion Regulation and Mental Health
+   ER has been identified as a transdiagnostic factor in both internalizing and externalizing psychopathology during adolescence (Aldao et al., 2016; Compas et al., 2017; Kökönyei et al., 2024; Modecki et al., 2017; Murray et al., 2024; Özlem Schäfer et al., 2017; Schneider et al., 2018; Wang et al., 2018). Cognitive emotion regulation strategies (e.g., cognitive reappraisal) appear to be particularly salient predictors of later mental health in adolescence (te Brinke et al., 2021; Zagaria et al., 2023). Thus, ER has been proposed as a key early identification factor for detecting mental health concerns (Murray et al., 2024). Difficulties with ER, like emotion maladaptation, are strong predictors and early signs of depression, especially in youth (Paulus et al., 2021). However, the majority of work investigating the relation between ER and depression has focused on adult or late-adolescent populations. Given that early adolescence has been proposed as a particularly pivotal period (Silvers et al., 2022; Uhlhaas et al., 2023), the present study sought to examine these associations in early adolescence, focusing on girls given their elevated risk of developing depression.
+   
+## Aims and Hypotheses
+   We aim to examine the association between emotion regulation strategies (reappraisal and suppression) and depressive symptoms among young adolescent girls, and we predicted 1) higher reappraisal usage will be associated with lower depressive symptoms, and 2) higher suppression usage will be associated with higher depressive symptoms. Additionally, exploratory analyses examined whether each ER strategy remained associated with depressive symptoms when adjusting for the other strategy, and whether age moderated these associations.
+
+# Method
+
+## Participants
+   The present study uses baseline data from the Transitions in Adolescent Girls (TAG) study, a longitudinal project examining the developmental trajectories of pubertal, neurological, and social processes as mechanisms underlying the emergence of mental illness in female adolescents (Barendse et al., 2020). A total of 174 adolescent girls were recruited from the local community in Lane County, Oregon, USA, primarily through letters sent by schools to all families with children registered as female students. The inclusion criteria required participants to be 10.00–12.99 years old at enrollment, fluent in English, and have normal or corrected-to-normal vision. Exclusion criteria included current use of psychotropic medication, MRI contraindications (e.g., claustrophobia, presence of ferromagnetic material in the body), suspected or confirmed pregnancy, and diagnoses of a developmental disability, psychotic disorder, or behavioral disorder (including autism). Parents or legal guardians provided informed consent, and adolescents provided assent before participation.
+          
 ```{r}
 
 # Cohort Plot
@@ -178,6 +208,21 @@ ggplot(df_tidy, aes(x = age, y = tagid)) +
  scale_x_continuous(breaks = seq(10, 20, by = 0.5))
 
 ```
+
+## Measures
+### Adolescent Depressive Symptoms
+   Depressive symptoms were assessed using the Center for Epidemiological Studies Depression Scale for Children (CES-DC), a 20-item self-report instrument designed to measure the severity of depressive symptoms over the past week. Each item is rated on a 4-point Likert scale, ranging from 0 (“Not at all”) to 4 (“A lot”), with higher total scores indicating greater levels of depressive symptomatology (Weissman et al., 1980). A score of 15 (out of 60) is considered indicative of clinically significant depressive symptoms. 
+   
+### Emotion Regulation Strategies
+   Emotion regulation strategies were measured using the Emotion Regulation Questionnaire (ERQ; Gross & John, 2003). The ERQ contains 10 items that assess individuals’ use of emotion regulation, with six items assessing cognitive reappraisal and four assessing expressive suppression. Each item is rated on a 7-point Likert scale, ranging from 1 (“strongly disagree”) to 7 (“strongly agree”). The present analyses treat each scale (reappraisal and suppression) separately.
+
+## Analytic Plan
+   All analyses were conducted in R (R Core Team, 2025). Data preparation utilized the following packages: [cite the packages here in the quarto doc]. For primary research questions 1 and 2, we estimated linear regression models to quantify the relation between the use of each ER strategy and depressive symptoms. For exploratory research question 1, we estimated a linear multiple regression model, which included both reappraisal and suppression as predictors. For exploratory research questions 2 and 3, we included an interaction term to explore adolescent age as a potential moderator. All p-values were evaluated at α = .05. 
+
+# Results
+
+## Descriptive Statistics
+   Sample descriptive statistics are reported in Table 1. Participants were young adolescent girls with a mean age of 11.6 years (SD = 0.8, range = 10.0–13.1). On average, adolescents reported moderate use of emotion regulation. Mean reappraisal scores were 27.4 (SD = 6.6, range = 6–41), and mean suppression scores were 13.7 (SD = 5.2, range = 5–28). Depressive symptoms were generally low to moderate, with a mean score of 12.8 (SD = 10.3, range = 0–50). The racial/ethnic composition of the sample was predominantly White/Caucasian (63.4%), followed by Multiracial (21.8%) and Hispanic/Latino/Chicano (4.2%). Smaller proportions of participants identified as Asian (1.4%), Black/African American (0.7%), Native American/Alaska Native (0.7%), or Other (1.4%). A small percentage declined to respond (0.7%) or had missing ethnicity data (5.6%).
 
 ```{r}
 
@@ -203,7 +248,7 @@ datasummary_skim(df_names,
 ## Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
 
 rq1<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_final)
-summary(rq1)
+#summary(rq1)
 #check_model(rq1)
 ```
 
@@ -214,7 +259,7 @@ summary(rq1)
 ## Is higher emotion suppression associated with higher depression symptoms in adolescent girls?
 
 rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_final)
-summary(rq2)
+#summary(rq2)
 #check_model(rq2)
 ```
 
@@ -225,28 +270,30 @@ summary(rq2)
 ## Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
 
 ex1 <- lm(ces_dc_total_75perc ~ erq_suppression_total + erq_reappraisal_total, data = df_final)
-summary(ex1)
+#summary(ex1)
 #check_model(ex1)
 ```
 
+```{r}
 
 ## Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
 
-```{r}
 ex2 <- lm(ces_dc_total_75perc ~ erq_reappraisal_total * W1_mean_age, data = df_final)
-summary(ex2)
+#summary(ex2)
 #check_model(ex2)
 
 ex3 <- lm(ces_dc_total_75perc ~ erq_suppression_total * W1_mean_age, data = df_tidy)
-summary(ex3)
+#summary(ex3)
 #check_model(ex3)
 ```
 
+## Emotion Regulation and Depression
+   The results of associations between emotion regulation strategies and depression are reported in Table 2. The association between cognitive reappraisal and depression is shown in Figure 1. A linear regression model was estimated predicting depressive symptoms from cognitive reappraisal. The overall model was significant, F(1, 1054) = 60.91, p < .001, and accounted for approximately 5% of the variance in depressive symptoms (R² = .05). Cognitive reappraisal significantly predicted depressive symptoms, such that greater use of reappraisal was associated with lower symptom severity, b = –0.36, SE = 0.05, t = –7.80, p < .001.
+   
+   The association between expression suppression and depression is shown in Table 2. A linear regression was conducted to assess the relation between expressive suppression and depressive symptoms. The model was significant, F(1, 1054) = 136.10, p < .001, accounting for about 11% of the variance in depressive symptoms (R² = .11). Expressive suppression significantly predicted depressive symptoms, with higher suppression associated with higher symptom scores, b = 0.64, SE = 0.06, t = 11.67, p < .001.
+
 ```{r}
-
-# Results
-
-## Tables
+## Table 2
 modelsummary(
   list(
     "Reappraisal" = rq1,
@@ -258,21 +305,6 @@ modelsummary(
   ),
   stars = TRUE,
   title = "Table 2. Model Summary for RQ1 and RQ2"
-  )
-
-modelsummary(
-  list(
-    "Suppression + Reappraisal" = ex1,
-    "Reappraisal × Age Interaction" = ex2,
-    "Suppression × Age Interaction" = ex3),
-    coef_map = c(
-    "(Intercept)"                     = "Intercept",
-    "erq_reappraisal_total"   = "Reappraisal (ERQ)",
-    "erq_suppression_total"   = "Suppression (ERQ)",
-    "erq_reappraisal_total:W1_mean_age" = "Reappraisal x Age",
-    "erq_suppression_total:W1_mean_age" = "Suppression x Age"),
-  stars = TRUE,
-  title = "Table 3. Model Summaries for Multiple Regression and Interaction Models"
   )
 ```
 
@@ -293,10 +325,45 @@ ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
 
 ```
 
+## Exploratory Analysis
+   The results of exploratory analysis are reported in Table 3. A multiple linear regression was conducted to examine whether expressive suppression and cognitive reappraisal independently predicted depressive symptoms. The overall model was significant, F(2, 1029) = 100.90, p < .001, and explained approximately 16% of the variance in depressive symptoms (R² = .16, adjusted R² = .16). Expressive suppression emerged as a significant positive predictor of depressive symptoms, b = 0.59, SE = 0.05, t = 10.83, p < .001, such that greater suppression use was associated with higher depressive symptom levels. Cognitive reappraisal was a significant negative predictor, b = –0.33, SE = 0.04, t = –7.80, p < .001, indicating that greater reappraisal use was associated with lower depressive symptoms. Together, the results suggest that these two emotion regulation strategies make independent and opposing contributions to depressive symptoms in early adolescent girls.
+   
+   Multiple regression models were estimated to examine whether age moderated the association between ER and depressive symptoms. The interaction plots are shown in Figure 3. In the first model, cognitive reappraisal, age, and their interaction were entered as predictors. The overall model was significant, F(3, 1052) = 28.52, p < .001, explaining approximately 7.5% of the variance in depressive symptoms (R² = .08). Greater use of cognitive reappraisal predicted lower depressive symptoms, b = –1.69, SE = 0.64, t = –2.62, p = .009, whereas age alone was not a significant predictor, b = –1.62, SE = 1.61, t = –1.01, p = .315. Importantly, the Reappraisal × Age interaction was significant, b = 0.12, SE = 0.06, t = 2.07, p = .039, indicating that the protective association between reappraisal and depressive symptoms was weaker among older adolescents. 
+   
+   A second moderation model tested whether age moderated the association between expressive suppression and depressive symptoms. The model was significant, F(3, 1052) = 47.56, p < .001, accounting for approximately 12% of the variance (R² = .12). However, neither expressive suppression (b = 0.05, SE = 0.74, t = 0.07, p = .943) nor age (b = 0.12, SE = 0.95, t = 0.13, p = .897) significantly predicted depressive symptoms in this model. The Suppression × Age interaction was also non-significant, b = 0.05, SE = 0.06, t = 0.77, p = .440, indicating that age did not modify the association between expressive suppression and depressive symptoms.
+
+```{r}
+
+# Table 3
+modelsummary(
+  list(
+    "Suppression + Reappraisal" = ex1,
+    "Reappraisal × Age Interaction" = ex2,
+    "Suppression × Age Interaction" = ex3),
+    coef_map = c(
+    "(Intercept)"                     = "Intercept",
+    "erq_reappraisal_total"   = "Reappraisal (ERQ)",
+    "erq_suppression_total"   = "Suppression (ERQ)",
+    "erq_reappraisal_total:W1_mean_age" = "Reappraisal x Age",
+    "erq_suppression_total:W1_mean_age" = "Suppression x Age"),
+  stars = TRUE,
+  title = "Table 3. Model Summaries for Multiple Regression and Interaction Models"
+  )
+```
+
 ```{r}
 # Interaction between Reappraisal and Depression
+df_final2 <- df_final %>%
+  filter(wave == 1, session == 1) %>%
+  mutate(
+    age_group_2 = case_when(
+      W1_mean_age >= 10 & W1_mean_age < 12 ~ "10–11",
+      W1_mean_age >= 12 & W1_mean_age <= 13 ~ "12–13",
+      TRUE ~ NA_character_
+    ))
+
 ggplot(
-  df_final%>%filter(!is.na(age_group_2)),
+  df_final2%>%filter(!is.na(age_group_2)),
   aes(
     x=erq_reappraisal_total,
     y=ces_dc_total_75perc,
@@ -315,7 +382,7 @@ ggplot(
     x="Reappraisal",
     y="Depression",
     linetype="Age Group",
-    title = "Figure 3.a. Interaction of Reappraisal and Age Predicting Depression Symptoms"
+    title = "Figure 3. Interaction of Reappraisal and Age Predicting Depression Symptoms"
   )+
   scale_linetype_manual(values = c("solid","dashed"))+
   theme_classic(base_size = 18)+
@@ -326,4 +393,26 @@ ggplot(
 ```
 
 # Discussion
-## [ to do later ]
+   The present study investigated associations between two core emotion regulation (ER) strategies, cognitive reappraisal and expressive suppression, and depressive symptoms among young adolescent girls, as well as whether age moderated these associations. Across analytic approaches, results revealed that greater use of cognitive reappraisal was linked to lower depressive symptoms, whereas greater use of expressive suppression was linked to higher depressive symptoms. These findings are consistent with the broader ER literature (Aldao et al., 2010; Compas et al., 2017) and demonstrate that these patterns are already evident during early adolescence, a developmental stage characterized by heightened emotional reactivity and growing vulnerability to internalizing disorders.
+   
+## Emotion Regulation as a Salient Predictor in Early Adolescence
+   Our findings underscore the relevance of ER strategy use for understanding depressive symptoms at a time when girls experience disproportionately high increases in depression risk (Rohde et al., 2009). Reappraisal, a strategy involving reframing emotional situations to alter one’s emotional experience, was negatively associated with depressive symptoms, supporting its conceptualization as an adaptive and protective regulatory strategy (Dryman & Heimberg, 2018). In contrast, suppression, a strategy aimed at inhibiting outward emotional expression, was associated with higher depressive symptoms, consistent with its categorization as a maladaptive strategy linked to emotional distancing, reduced social support, and increased physiological stress responses (Ehring et al., 2010). 
+   
+   Importantly, these associations persisted when the two strategies were modeled together, suggesting that each contributes uniquely to depressive symptoms rather than functioning as opposite ends of a single continuum. This distinction adds nuance to our understanding of ER processes that adolescents may simultaneously engage in both adaptive and maladaptive strategies, and the balance between them may contribute meaningfully to mental health.
+
+## Developmental Considerations and Age as a Moderator
+   Exploratory analyses further revealed that age moderated the association between reappraisal and depressive symptoms. Although reappraisal was associated with lower depressive symptoms across the full sample, this protective association was weaker among older adolescents. One interpretation is that developmental changes in emotional, cognitive, or social processes may influence the effectiveness with which reappraisal is deployed across the early and later stages of adolescence. For instance, younger adolescents may benefit more from cognitive reframing strategies as they begin to encounter more complex emotional challenges. In contrast, older adolescents may increasingly rely on a broader set of regulatory skills or face social contexts that diminish the effectiveness of reappraisal. This finding is consistent with conceptual models that propose early adolescence as a sensitive period for the development of ER skills (Silvers, 2022) and underscores the importance of strengthening adaptive regulation strategies before adolescence progresses further.
+   
+In contrast, age did not moderate the association between expressive suppression and depressive symptoms. Suppression was linked to elevated depressive symptoms regardless of age. This suggests that suppression may function as a consistently maladaptive strategy across early adolescence, possibly because it interferes with emotional expression, social connectedness, and psychological flexibility in ways that are detrimental at any age during this developmental period.
+## Implications for Theory, Prevention, and Intervention
+   These findings have several theoretical and applied implications. Theoretically, they support models positioning ER as a transdiagnostic factor in the development of internalizing symptoms (Aldao et al., 2016). They also align with neurodevelopmental models suggesting that early adolescence marks a sensitive period for the maturation of prefrontal and limbic circuitry involved in cognitive regulation of emotion (Gee, 2016). Because reappraisal relies heavily on prefrontal control processes, its benefits may be particularly meaningful when these neural systems are still maturing.
+   
+   From a prevention and intervention standpoint, our results highlight reappraisal as a potential target for early skill-building efforts. Programs that teach adolescents how to reinterpret emotional situations, such as cognitive-behavioral interventions, may be especially effective if delivered early, before the benefits of reappraisal begin to diminish. Similarly, interventions that reduce reliance on expressive suppression and promote more adaptive coping strategies may mitigate risk for depression onset. Importantly, the moderation findings suggest that the timing of the intervention matters. Given that the protective effect of reappraisal appears stronger in the earlier years of adolescence, prevention programs may benefit from being implemented around ages 10–12, when cognitive ER skills may be more malleable and impactful.
+   
+## Limitations and Future Directions
+   Several limitations should be considered when interpreting these findings. First, the present study relied on baseline cross-sectional data, which limits our ability to draw conclusions about directionality or causal pathways between ER and depressive symptoms. Longitudinal analyses are needed to determine whether ER strategies predict changes in depressive symptoms over time, or vice versa. Second, all variables were assessed via self-report, which may introduce shared method variance or reporting biases. Incorporating multi-method assessments, including parent-report, behavioral tasks, or physiological indicators, would help strengthen the validity of future findings. Third, although our sample was demographically representative of the geographic region, it was not highly diverse, and replication in more heterogeneous samples would improve generalizability. Finally, our models focused on two ER strategies, but adolescents use a vast repertoire of regulation behaviors; future work should examine additional strategies and consider how they interact within broader ER profiles.
+   
+# Conclusion
+   Overall, the present study provides evidence that cognitive reappraisal and expressive suppression are meaningful correlates of depressive symptoms in early adolescent girls. Reappraisal appears to confer a protective effect, whereas suppression is associated with greater depressive symptoms. The moderating role of age suggests that the benefits of reappraisal may diminish as adolescents grow older, underscoring the importance of strengthening adaptive ER skills during early adolescence. These findings lay the groundwork for future longitudinal work aimed at understanding how ER strategies shape developmental trajectories of depression and identifying early targets for intervention and prevention
+   
+# References
