@@ -10,27 +10,28 @@ format:
     highlight-style: tango
 execute:
   eval: true
-  echo: true
+  echo: false
 warning: false
 message: false
 ---
 
+```{r}
+
 # Load packages
 
-```{r}
 library(tidyverse)
 library(flextable)
 library(here)
 library(readxl)
-library(modelsummary)
-library(janitor)
-library(performance)
-library(ggplot2)
+library(modelsummary) # for tables
+library(janitor) # for cleaning names
+library(performance) # for assessing regression assumptions
 ```
+
+```{r}
 
 # Load data
 
-```{r}
 # Demographic
 age <- read_csv(here("data", "TAG_age_session_dates_4waves.csv"))
 age <- clean_names(age)
@@ -47,14 +48,14 @@ erq <- erq %>%
 # Adolescent Depression(CESDC)
 cesdc <- read_csv(here("data", "CESDC_Wave1.csv"))
 cesdc <- clean_names(cesdc)
-
 ```
+
+```{r}
 
 # Participant demographics
 ## Race/ethnicity category
 ### Clean the data frame: identify subjects reported multiple racial categories and rename them to "Multi-racial"
 
-```{r}
 race_clean <- race %>%
   mutate(
     w1_ethnicity = as.character(w1_ethnicity),
@@ -66,10 +67,11 @@ race_clean <- race %>%
   )
 ```
 
+```{r}
+
 # Age
 ## We have subject age data at both sessions and we are interested in calculating the mean age of the two sessions of wave1. 
 
-```{r}
 age <- age %>% 
   mutate(W1_mean_age = (w1s1_age + w1s2_age)/2) 
 
@@ -122,7 +124,6 @@ df <- df %>%
   )
 ```
 
-# Tidy and filter
 
 ```{r}
 # Tidy
@@ -155,11 +156,10 @@ df_final <- df_tidy %>%
 
 ```
 
-# Results
+```{r}
 
 # Cohort Plot
 
-```{r echo=FALSE}
 ggplot(df_tidy, aes(x = age, y = tagid)) +
   geom_line(aes(group = tagid), size = .5, alpha = .4) +
   geom_point(aes(color = as.factor(wave)), size = 2) +
@@ -179,10 +179,10 @@ ggplot(df_tidy, aes(x = age, y = tagid)) +
 
 ```
 
+```{r}
 
 # Sample Summary Statistics
 
-```{r}
 df_names <- df_tidy %>% 
     select(-wave, -session) %>% 
     rename(
@@ -196,40 +196,44 @@ datasummary_skim(df_names,
                  title = "Table 1. Sample Descriptive Statistics")
 ```
 
+```{r}
+
 # RQ 1
 
 ## Is higher emotion reappraisal associated with lower depression symptoms in adolescent girls?
 
-```{r}
-rq1<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
+rq1<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_final)
 summary(rq1)
 #check_model(rq1)
 ```
+
+```{r}
 
 # RQ 2
 
 ## Is higher emotion suppression associated with higher depression symptoms in adolescent girls?
 
-```{r}
-rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_tidy)
+rq2<-lm(ces_dc_total_75perc~erq_suppression_total, data = df_final)
 summary(rq2)
 #check_model(rq2)
 ```
+
+```{r}
 
 # Exploratory 
 
 ## Is higher suppression use associated with higher depression symptoms when adjusting for reappraisal use?
 
-```{r}
-ex1 <- lm(ces_dc_total_75perc ~ erq_suppression_total + erq_reappraisal_total, data = df_tidy)
+ex1 <- lm(ces_dc_total_75perc ~ erq_suppression_total + erq_reappraisal_total, data = df_final)
 summary(ex1)
 #check_model(ex1)
 ```
 
+
 ## Does age moderate the relation between reappraisal/suppression and depression symptoms in adolescent girls?
 
 ```{r}
-ex2 <- lm(ces_dc_total_75perc ~ erq_reappraisal_total * W1_mean_age, data = df_tidy)
+ex2 <- lm(ces_dc_total_75perc ~ erq_reappraisal_total * W1_mean_age, data = df_final)
 summary(ex2)
 #check_model(ex2)
 
@@ -238,10 +242,11 @@ summary(ex3)
 #check_model(ex3)
 ```
 
+```{r}
+
 # Results
 
 ## Tables
-```{r}
 modelsummary(
   list(
     "Reappraisal" = rq1,
@@ -271,33 +276,25 @@ modelsummary(
   )
 ```
 
-## Plots
 ```{r}
+
+## Plots
+
 ## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both. I added the summaries to assess correlation between both suppression and reappraisal and depression
 ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
   labs(x="Reappraisal", y="Depression", title = "Figure 1. Association between cognitive reappraisal and depressive symptoms")
+
 ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
   labs(x="Suppression", y="Depression", title = "Figure 2. Association between expressive suppression and depressive sympotms")
-Suppression<-lm(ces_dc_total_75perc ~ erq_suppression_total, data = df_tidy)
-summary(Suppression)
-Depression<-lm(ces_dc_total_75perc~erq_reappraisal_total, data = df_tidy)
-summary(Depression)
+
 ```
-##Interaction Plot
+
 ```{r}
-df_final <- df_tidy %>%
-  filter(wave == 1, session == 1) %>%
-  mutate(
-    age_group_2 = case_when(
-      W1_mean_age >= 10 & W1_mean_age < 12 ~ "10–11",
-      W1_mean_age >= 12 & W1_mean_age <= 13 ~ "12–13",
-      TRUE ~ NA_character_
-    ))
-#Reappraisal and Depression
+# Interaction between Reappraisal and Depression
 ggplot(
   df_final%>%filter(!is.na(age_group_2)),
   aes(
@@ -326,36 +323,6 @@ ggplot(
     legend.position = "bottom",
     legend.key = element_blank()
   )
-#Suppression and Depression
-ggplot(
-  df_final %>% filter(!is.na(age_group_2)),
-  aes(
-    x = erq_suppression_total,
-    y = ces_dc_total_75perc,
-    linetype = age_group_2
-  )
-) +
-  geom_smooth(
-    method    = "lm",
-    se        = TRUE,
-    fullrange = TRUE,
-    color     = "Aquamarine3",
-    linewidth = 1,
-    alpha     = 0.15
-  ) +
-  labs(
-    x   = "Suppression",
-    y   = "Depression",
-    linetype = "Age Group",
-    title = "Figure 3.b. Interaction of Suppression and Age Predicting Depression Symptoms"
-  ) +
-  scale_linetype_manual(values = c("solid", "dashed")) +
-  theme_classic(base_size = 18) +
-  theme(
-    legend.position = "bottom",
-    legend.key      = element_blank()
-  )
-
 ```
 
 # Discussion
