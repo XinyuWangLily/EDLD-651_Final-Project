@@ -190,6 +190,7 @@ We aimed to examine the association between emotion regulation strategies (reapp
 The present study uses baseline data from the Transitions in Adolescent Girls (TAG) study, a longitudinal project examining the developmental trajectories of pubertal, neurological, and social processes as mechanisms underlying the emergence of mental illness in female adolescents [@barendse2019]. A total of 174 adolescent girls were recruited from the local community in Lane County, Oregon, USA, primarily through letters sent by schools to all families with children registered as female students. The inclusion criteria required participants to be 10-13 years old at enrollment, fluent in English, and have normal or corrected-to-normal vision. Exclusion criteria included current use of psychotropic medication, MRI contraindications (e.g., claustrophobia, presence of ferromagnetic material in the body), suspected or confirmed pregnancy, and diagnoses of a developmental disability, psychotic disorder, or behavioral disorder (including autism). Parents or legal guardians provided informed consent, and adolescents provided assent before participation.
 
 ### Figure 1. Plot of TAG Participants
+
 ```{r}
 
 ggplot(df_tidy, aes(x = age, y = tagid)) +
@@ -369,6 +370,7 @@ modelsummary(
 ```
 
 ### Figure 2
+
 ```{r}
 ## Plots
 
@@ -421,6 +423,7 @@ modelsummary(
 ```
 
 ### Figure 4
+
 ```{r}
 # Interaction between Reappraisal and Depression
 df_final2 <- df_final %>%
@@ -460,7 +463,9 @@ ggplot(
     legend.key = element_blank()
   )
 ```
+
 ### Figure 5
+
 ```{r}
 #Suppression and Depression
 
