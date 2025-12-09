@@ -167,7 +167,7 @@ df_final <- df_tidy %>%
 
 Major depressive disorder (MDD) and depressive symptoms are among the most significant mental health concerns affecting adolescents [@benton2021]. Measured in Years Lived with Disability (YLD), depression is one of the leading causes of disability worldwide, contributing significantly to the global burden of disease [@reddy2010]. @IHME2019 reported that depression had become the second leading cause of disability, with 605.67 YLDs per 100,000 in 2019.
 
-The issue has become critical among adolescents. According to the [@NIMH_MajorDepression], in 2021, the prevalence of MDD among adolescents reached 5 million, accounting for 20.1% of the U.S. population aged 12-17. The prevalence was higher among adolescent females (29.2%) compared to adolescent males (11.5%). MDD is significantly associated with a range of developmental outcomes, such as educational attainment [@breslau2008; @breslau2011; @lee2009], early childbearing [@marcus2009], and occupational functioning and age at marriage [@fakhari2020], implying that MDD is associated with adverse health outcomes and long-term impairment, particularly when it begins in adolescence. Given its high prevalence and far-reaching consequences, it is critical to identify the mechanisms, as well as the risk and resilience factors, that contribute to the onset and progression of depressive symptoms in adolescence.
+The issue has become critical among adolescents. According to the @NIMH_MajorDepression, the prevalence of MDD among adolescents reached 5 million, accounting for 20.1% of the U.S. population aged 12-17. The prevalence was higher among adolescent females (29.2%) compared to adolescent males (11.5%). MDD is significantly associated with a range of developmental outcomes, such as educational attainment [@breslau2008; @breslau2011; @lee2009], early childbearing [@marcus2009], and occupational functioning and age at marriage [@fakhari2020], implying that MDD is associated with adverse health outcomes and long-term impairment, particularly when it begins in adolescence. Given its high prevalence and far-reaching consequences, it is critical to identify the mechanisms, as well as the risk and resilience factors, that contribute to the onset and progression of depressive symptoms in adolescence.
 
 ## Emotion Regulation Strategies
 
@@ -177,21 +177,20 @@ ER strategies differ markedly in their effectiveness. Strategies such as reappra
 
 ## Emotion Regulation and Mental Health
 
-ER has been identified as a transdiagnostic factor in both internalizing and externalizing psychopathology during adolescence [@aldao2016; @özlemschäfer2017; @joormann2016]. Cognitive emotion regulation strategies (e.g., cognitive reappraisal) appear to be particularly salient predictors of later mental health in adolescence [@tebrinke2021 @zagaria2023]. Thus, ER has been proposed as a key early identification factor for detecting mental health concerns [@murray2024]. Difficulties with ER, like emotion maladaptation, are strong predictors and early signs of depression, especially in youth [@paulus2021]. However, the majority of work investigating the relation between ER and depression has focused on adult or late-adolescent populations. Given that early adolescence has been proposed as a particularly pivotal period [@silvers2022; @uhlhaas2023], the present study sought to examine these associations in early adolescence, focusing on girls given their elevated risk of developing depression.
+ER has been identified as a transdiagnostic factor in both internalizing and externalizing psychopathology during adolescence [@aldao2016; @özlemschäfer2017; @joormann2016]. Cognitive emotion regulation strategies (e.g., cognitive reappraisal) appear to be particularly salient predictors of later mental health in adolescence [@tebrinke2021; @zagaria2023]. Thus, ER has been proposed as a key early identification factor for detecting mental health concerns [@murray2024]. Difficulties with ER, like emotion maladaptation, are strong predictors and early signs of depression, especially in youth [@paulus2021]. However, the majority of work investigating the relation between ER and depression has focused on adult or late-adolescent populations. Given that early adolescence has been proposed as a particularly pivotal period [@silvers2022; @uhlhaas2023], the present study sought to examine these associations in early adolescence, focusing on girls given their elevated risk of developing depression.
 
 ## Aims and Hypotheses
 
-We aim to examine the association between emotion regulation strategies (reappraisal and suppression) and depressive symptoms among young adolescent girls, and we predicted 1) higher reappraisal usage will be associated with lower depressive symptoms, and 2) higher suppression usage will be associated with higher depressive symptoms. Additionally, exploratory analyses examined whether each ER strategy remained associated with depressive symptoms when adjusting for the other strategy, and whether age moderated these associations.
+We aimed to examine the association between emotion regulation strategies (reappraisal and suppression) and depressive symptoms among young adolescent girls, and we predicted 1) higher reappraisal usage will be associated with lower depressive symptoms, and 2) higher suppression usage will be associated with higher depressive symptoms. Additionally, exploratory analyses examined whether each ER strategy remained associated with depressive symptoms when adjusting for the other strategy, and whether age moderated these associations.
 
 # Method
 
 ## Participants
 
-The present study uses baseline data from the Transitions in Adolescent Girls (TAG) study, a longitudinal project examining the developmental trajectories of pubertal, neurological, and social processes as mechanisms underlying the emergence of mental illness in female adolescents @barendse2019 A total of 174 adolescent girls were recruited from the local community in Lane County, Oregon, USA, primarily through letters sent by schools to all families with children registered as female students. The inclusion criteria required participants to be 10-13 years old at enrollment, fluent in English, and have normal or corrected-to-normal vision. Exclusion criteria included current use of psychotropic medication, MRI contraindications (e.g., claustrophobia, presence of ferromagnetic material in the body), suspected or confirmed pregnancy, and diagnoses of a developmental disability, psychotic disorder, or behavioral disorder (including autism). Parents or legal guardians provided informed consent, and adolescents provided assent before participation.
+The present study uses baseline data from the Transitions in Adolescent Girls (TAG) study, a longitudinal project examining the developmental trajectories of pubertal, neurological, and social processes as mechanisms underlying the emergence of mental illness in female adolescents [@barendse2019]. A total of 174 adolescent girls were recruited from the local community in Lane County, Oregon, USA, primarily through letters sent by schools to all families with children registered as female students. The inclusion criteria required participants to be 10-13 years old at enrollment, fluent in English, and have normal or corrected-to-normal vision. Exclusion criteria included current use of psychotropic medication, MRI contraindications (e.g., claustrophobia, presence of ferromagnetic material in the body), suspected or confirmed pregnancy, and diagnoses of a developmental disability, psychotic disorder, or behavioral disorder (including autism). Parents or legal guardians provided informed consent, and adolescents provided assent before participation.
 
+### Figure 1. Plot of TAG Participants
 ```{r}
-
-# Cohort Plot
 
 ggplot(df_tidy, aes(x = age, y = tagid)) +
   geom_line(aes(group = tagid), size = .5, alpha = .4) +
@@ -224,15 +223,17 @@ Emotion regulation strategies were measured using the Emotion Regulation Questio
 
 ## Analytic Plan
 
-All analyses were conducted in *R* [@R]. Data preparation utilized the following packages: tidyverse [@R-tidyverse], here [@R-here], readxl [@R-readxl], janitor [@R-janitor], modelsummary [@R-modelsummary], performance [@R-performance], and flextable [@R-flextable]. For primary research questions 1 and 2, we estimated linear regression models to quantify the relation between the use of each ER strategy and depressive symptoms. For exploratory research question 1, we estimated a linear multiple regression model, which included both reappraisal and suppression as predictors. For exploratory research questions 2 and 3, we included an interaction term to explore adolescent age as a potential moderator. All p-values were evaluated at α = .05.
+All analyses were conducted in *R* [@R]. Data preparation utilized the following packages: *tidyverse* [@R-tidyverse], *here* [@R-here], *readxl* [@R-readxl], *janitor* [@R-janitor], *modelsummary* [@R-modelsummary], *performance* [@R-performance], and *flextable* [@R-flextable]. For primary research questions 1 and 2, we estimated linear regression models to quantify the relation between the use of each ER strategy and depressive symptoms. For exploratory research question 1, we estimated a linear multiple regression model, which included both reappraisal and suppression as predictors. For exploratory research questions 2 and 3, we included an interaction term to explore adolescent age as a potential moderator. All *p*-values were evaluated at *α* = .05.
 
 # Results
 
 ## Descriptive Statistics
 
-Sample descriptive statistics are reported in Table 1. Participants were young adolescent girls with a mean age of `r round(mean(df$W1_mean_age, na.rm = TRUE), 1)` years (SD = `r round(sd(df$W1_mean_age, na.rm = TRUE), 1)`, range = `r round(min(df$W1_mean_age, na.rm = TRUE))`-`r round(max(df$W1_mean_age, na.rm = TRUE))`). On average, adolescents reported moderate use of emotion regulation. Mean reappraisal scores were `r round(mean(df$erq_reappraisal_total, na.rm = TRUE), 1)` (SD = `r round(sd(df$erq_reappraisal_total, na.rm = TRUE), 1)`, range = `r min(df$erq_reappraisal_total, na.rm = TRUE)`-`r max(df$erq_reappraisal_total, na.rm = TRUE)`), and mean suppression scores were `r round(mean(df$erq_suppression_total, na.rm = TRUE), 1)` (SD = `r round(sd(df$erq_suppression_total, na.rm = TRUE), 1)`, range = `r min(df$erq_suppression_total, na.rm = TRUE)`-`r max(df$erq_suppression_total, na.rm = TRUE)`). Depressive symptoms were generally low to moderate, with a mean score of `r round(mean(df$ces_dc_total_75perc, na.rm = TRUE), 1)` (SD = `r round(sd(df$ces_dc_total_75perc, na.rm = TRUE), 1)`, range = `r min(df$ces_dc_total_75perc, na.rm = TRUE)`-`r max(df$ces_dc_total_75perc, na.rm = TRUE)`).
+Sample descriptive statistics are reported in Table 1. Participants were young adolescent girls with a mean age of `r round(mean(df$W1_mean_age, na.rm = TRUE), 1)` years (SD = `r round(sd(df$W1_mean_age, na.rm = TRUE), 1)`, range = `r round(min(df$W1_mean_age, na.rm = TRUE))`-`r round(max(df$W1_mean_age, na.rm = TRUE))`). On average, adolescents reported moderate use of emotion regulation strategies. Mean reappraisal scores were `r round(mean(df$erq_reappraisal_total, na.rm = TRUE), 1)` (SD = `r round(sd(df$erq_reappraisal_total, na.rm = TRUE), 1)`, range = `r min(df$erq_reappraisal_total, na.rm = TRUE)`-`r max(df$erq_reappraisal_total, na.rm = TRUE)`), and mean suppression scores were `r round(mean(df$erq_suppression_total, na.rm = TRUE), 1)` (SD = `r round(sd(df$erq_suppression_total, na.rm = TRUE), 1)`, range = `r min(df$erq_suppression_total, na.rm = TRUE)`-`r max(df$erq_suppression_total, na.rm = TRUE)`). Depressive symptoms were generally low to moderate, with a mean score of `r round(mean(df$ces_dc_total_75perc, na.rm = TRUE), 1)` (SD = `r round(sd(df$ces_dc_total_75perc, na.rm = TRUE), 1)`, range = `r min(df$ces_dc_total_75perc, na.rm = TRUE)`-`r max(df$ces_dc_total_75perc, na.rm = TRUE)`).
 
 The racial/ethnic composition of the sample was predominantly White/Caucasian (`r round(mean(df$w1_ethnicity == "d. White / Caucasian", na.rm = TRUE) * 100, 1)`%), followed by Multiracial (`r round(mean(df$w1_ethnicity == "g. Multi-racial", na.rm = TRUE) * 100, 1)`%) and Hispanic/Latino/Chicano (`r round(mean(df$w1_ethnicity == "b. Hispanic/ Latino/ Chicano", na.rm = TRUE) * 100, 1)`%). Smaller proportions of participants identified as Asian (`r round(mean(df$w1_ethnicity == "e. Asian", na.rm = TRUE) * 100, 1)`%), Black/African American (`r round(mean(df$w1_ethnicity == "a. Black/ African American", na.rm = TRUE) * 100, 1)`%), Native American/Alaska Native (`r round(mean(df$w1_ethnicity == "c. Native American or Native Alaskan", na.rm = TRUE) * 100, 1)`%), or Other (`r round(mean(df$w1_ethnicity == "h. Other", na.rm = TRUE) * 100, 1)`%). A small percentage declined to respond (`r round(mean(df$w1_ethnicity == "j. Decline to respond", na.rm = TRUE) * 100, 1)`%) or had missing ethnicity data (`r round(mean(is.na(df$w1_ethnicity)) * 100, 1)`%).
+
+### Table 1. Sample Summary Statistics
 
 ```{r}
 
@@ -247,8 +248,7 @@ df_names <- df_tidy %>%
     Age               = W1_mean_age,
     Ethnicity         = w1_ethnicity
     )
-datasummary_skim(df_names,
-                 title = "Table 1. Sample Descriptive Statistics")
+datasummary_skim(df_names)
 ```
 
 ```{r}
@@ -297,11 +297,61 @@ ex3 <- lm(ces_dc_total_75perc ~ erq_suppression_total * W1_mean_age, data = df_f
 #check_model(ex3)
 ```
 
+```{r}
+# store info as objects for inline code below 
+rq1_f <- summary(rq1)$fstatistic[1]
+rq1_df2 <- summary(rq1)$fstatistic[3]
+rq1_r2 <- summary(rq1)$r.squared
+rq1_b <- coef(summary(rq1))["erq_reappraisal_total", "Estimate"]
+rq1_se <- coef(summary(rq1))["erq_reappraisal_total", "Std. Error"]
+rq1_t <- coef(summary(rq1))["erq_reappraisal_total", "t value"]
+
+rq2_f <- summary(rq2)$fstatistic[1]
+rq2_df2 <- summary(rq2)$fstatistic[3]
+rq2_r2 <- summary(rq2)$r.squared
+rq2_b <- coef(summary(rq2))["erq_suppression_total", "Estimate"]
+rq2_se <- coef(summary(rq2))["erq_suppression_total", "Std. Error"]
+rq2_t <- coef(summary(rq2))["erq_suppression_total", "t value"]
+
+
+ex1_f  <- summary(ex1)$fstatistic[1]
+ex1_df2 <- summary(ex1)$fstatistic[3]
+ex1_r2 <- summary(ex1)$r.squared
+ex1_b_reapp <- coef(summary(ex1))["erq_reappraisal_total", "Estimate"]
+ex1_se_reapp <- coef(summary(ex1))["erq_reappraisal_total", "Std. Error"]
+ex1_t_reapp <- coef(summary(ex1))["erq_reappraisal_total", "t value"]
+ex1_b_supp <- coef(summary(ex1))["erq_suppression_total", "Estimate"]
+ex1_se_supp <- coef(summary(ex1))["erq_suppression_total", "Std. Error"]
+ex1_t_supp <- coef(summary(ex1))["erq_suppression_total", "t value"]
+
+ex2_f <- summary(ex2)$fstatistic[1]
+ex2_df2 <- summary(ex2)$fstatistic[3]
+ex2_r2 <- summary(ex2)$r.squared
+ex2_b_reapp <- coef(summary(ex2))["erq_reappraisal_total", "Estimate"]
+ex2_se_reapp <- coef(summary(ex2))["erq_reappraisal_total", "Std. Error"]
+ex2_t_reapp <- coef(summary(ex2))["erq_reappraisal_total", "t value"]
+ex2_int_b <- coef(summary(ex2))["erq_reappraisal_total:W1_mean_age", "Estimate"]
+ex2_int_se <- coef(summary(ex2))["erq_reappraisal_total:W1_mean_age", "Std. Error"]
+ex2_int_t <- coef(summary(ex2))["erq_reappraisal_total:W1_mean_age", "t value"]
+
+ex3_f <- summary(ex3)$fstatistic[1]
+ex3_df2 <- summary(ex3)$fstatistic[3]
+ex3_r2 <- summary(ex3)$r.squared
+ex3_b_supp <- coef(summary(ex3))["erq_suppression_total", "Estimate"]
+ex3_se_supp <- coef(summary(ex3))["erq_suppression_total", "Std. Error"]
+ex3_t_supp <- coef(summary(ex3))["erq_suppression_total", "t value"]
+ex3_int_b <- coef(summary(ex3))["erq_suppression_total:W1_mean_age", "Estimate"]
+ex3_int_se <- coef(summary(ex3))["erq_suppression_total:W1_mean_age", "Std. Error"]
+ex3_int_t <- coef(summary(ex3))["erq_suppression_total:W1_mean_age", "t value"]
+```
+
 ## Emotion Regulation and Depression
 
-The results of associations between emotion regulation strategies and depression are reported in Table 2. The association between cognitive reappraisal and depression is shown in Figure 1. A linear regression model was estimated predicting depressive symptoms from cognitive reappraisal. The overall model was significant, *F*(1, `r df.residual(rq1)`) = `r round(summary(rq1)$fstatistic[1], 2)`, *p* \< .001, and accounted for approximately `r round(summary(rq1)$r.squared, 2)` of the variance in depressive symptoms (*R*² = `r round(summary(rq1)$r.squared, 2)`). Cognitive reappraisal significantly predicted depressive symptoms, such that greater use of reappraisal was associated with lower symptom severity, *b* = `r round(coef(summary(rq1))["erq_reappraisal_total", "Estimate"], 2)`, *SE* = `r round(coef(summary(rq1))["erq_reappraisal_total", "Std. Error"], 2)`, *t* = `r round(coef(summary(rq1))["erq_reappraisal_total", "t value"], 2)`, *p* \< .001.
+The results of associations between emotion regulation strategies and depression are reported in Table 2. The association between cognitive reappraisal and depression is shown in Figure 1. A linear regression model was estimated predicting depressive symptoms from cognitive reappraisal. The overall model was significant, *F*(1, `r rq1_df2`) = `r round(rq1_f, 2)`, *p* \< .001, and accounted for approximately `r round(rq1_r2, 2)` of the variance in depressive symptoms (*R*² = `r round(rq1_r2, 2)`). Cognitive reappraisal significantly predicted depressive symptoms, such that greater use of reappraisal was associated with lower symptom severity, *b* = `r round(rq1_b, 2)`, *SE* = `r round(rq1_se, 2)`, *t* = `r round(rq1_t, 2)`, *p* \< .001.
 
-The association between expressive suppression and depression is shown in Table 2. A linear regression was conducted to assess the relation between expressive suppression and depressive symptoms. The model was significant, *F*(1, `r df.residual(rq2)`) = `r round(summary(rq2)$fstatistic[1], 2)`, *p* \< .001, accounting for about `r round(summary(rq2)$r.squared, 2)` of the variance in depressive symptoms (*R*² = `r round(summary(rq2)$r.squared, 2)`). Expressive suppression significantly predicted depressive symptoms, with higher suppression associated with higher symptom scores, *b* = `r round(coef(summary(rq2))["erq_suppression_total", "Estimate"], 2)`, *SE* = `r round(coef(summary(rq2))["erq_suppression_total", "Std. Error"], 2)`, *t* = `r round(coef(summary(rq2))["erq_suppression_total", "t value"], 2)`, *p* \< .001.
+The association between expressive suppression and depression is shown in Table 2. A linear regression was conducted to assess the relation between expressive suppression and depressive symptoms. The model was significant, *F*(1, `r rq2_df2`) = `r round(rq2_f, 2)`, *p* \< .001, accounting for about `r round(rq2_r2, 2)` of the variance in depressive symptoms (*R*² = `r round(rq2_r2, 2)`). Expressive suppression significantly predicted depressive symptoms, with higher suppression associated with higher symptom scores, *b* = `r round(rq2_b, 2)`, *SE* = `r round(rq2_se, 2)`, *t* = `r round(rq2_t, 2)`, *p* \< .001.
+
+### Table 2. Model Summary for RQ1 and RQ2
 
 ```{r}
 ## Table 2
@@ -314,38 +364,43 @@ modelsummary(
     "erq_reappraisal_total"   = "Reappraisal (ERQ)",
     "erq_suppression_total"   = "Suppression (ERQ)"
   ),
-  stars = TRUE,
-  title = "Table 2. Model Summary for RQ1 and RQ2"
+  stars = TRUE
   )
 ```
 
+## Figure 2
 ```{r}
-
 ## Plots
 
-## two scatter plots with regression lines (method lm) here: one for reappraisal (x axis) and one for suppression (x axis); y axis will be depression for both. I added the summaries to assess correlation between both suppression and reappraisal and depression
 ggplot(df_tidy, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
-  labs(x="Reappraisal", y="Depression", title = "Figure 1. Association between cognitive reappraisal and depressive symptoms") +
+  labs(x="Reappraisal", y="Depression", title = "Association between cognitive reappraisal and depressive symptoms") +
   theme_classic(base_size = 11)
 
+```
+
+### Figure 3
+
+```{r}
 
 ggplot(df_tidy,aes(x=erq_suppression_total, y=ces_dc_total_75perc))+
   geom_point(color="Dodgerblue3")+
   geom_smooth(method = lm, color="Aquamarine3")+
-  labs(x="Suppression", y="Depression", title = "Figure 2. Association between expressive suppression and depressive sympotms") + 
+  labs(x="Suppression", y="Depression", title = "Association between expressive suppression and depressive sympotms") + 
   theme_classic(base_size = 11)
 
 ```
 
 ## Exploratory Analysis
 
-The results of exploratory analysis are reported in Table 3. A multiple linear regression was conducted to examine whether expressive suppression and cognitive reappraisal independently predicted depressive symptoms. The overall model was significant, *F*(2, `r df.residual(ex1)`) = `r round(summary(ex1)$fstatistic[1], 2)`, *p* \< .001, and explained approximately `r round(summary(ex1)$r.squared, 2)` of the variance in depressive symptoms (*R*² = `r round(summary(ex1)$r.squared, 2)`). Expressive suppression emerged as a significant positive predictor, *b* = `r round(coef(summary(ex1))["erq_suppression_total", "Estimate"], 2)`, *SE* = `r round(coef(summary(ex1))["erq_suppression_total", "Std. Error"], 2)`, *t* = `r round(coef(summary(ex1))["erq_suppression_total", "t value"], 2)`, *p* \< .001. Cognitive reappraisal was a significant negative predictor, *b* = `r round(coef(summary(ex1))["erq_reappraisal_total", "Estimate"], 2)`, *SE* = `r round(coef(summary(ex1))["erq_reappraisal_total", "Std. Error"], 2)`, *t* = `r round(coef(summary(ex1))["erq_reappraisal_total", "t value"], 2)`, *p* \< .001. These results suggest that suppression and reappraisal make independent and opposing contributions to depressive symptoms in early adolescent girls.
+The results of exploratory analysis are reported in Table 3. A multiple linear regression was conducted to examine whether expressive suppression and cognitive reappraisal independently predicted depressive symptoms. The overall model was significant, *F*(2, `r ex1_df2`) = `r round(ex1_f, 2)`, *p* \< .001, and explained approximately `r round(ex1_r2, 2)` of the variance in depressive symptoms (*R*² = `r round(ex1_r2, 2)`). Expressive suppression emerged as a significant positive predictor, *b* = `r round(ex1_b_supp, 2)`, *SE* = `r round(ex1_se_supp, 2)`, *t* = `r round(ex1_t_supp, 2)`, *p* \< .001. Cognitive reappraisal was a significant negative predictor, *b* = `r round(ex1_b_reapp, 2)`, *SE* = `r round(ex1_se_reapp, 2)`, *t* = `r round(ex1_t_reapp, 2)`, *p* \< .001. These results suggest that suppression and reappraisal make independent and opposing contributions to depressive symptoms in early adolescent girls.
 
-To test whether age moderated these associations, two interaction models were estimated. The interaction plots are shown in Figure 3. In the first model, cognitive reappraisal, age, and their interaction were entered as predictors. The overall model was significant, *F*(3, `r df.residual(ex2)`) = `r round(summary(ex2)$fstatistic[1], 2)`, *p* \< .001, explaining `r round(summary(ex2)$r.squared, 2)` of the variance. Greater reappraisal use predicted lower depressive symptoms, *b* = `r round(coef(summary(ex2))["erq_reappraisal_total", "Estimate"], 2)`, *SE* = `r round(coef(summary(ex2))["erq_reappraisal_total", "Std. Error"], 2)`, *t* = `r round(coef(summary(ex2))["erq_reappraisal_total", "t value"], 2)`, *p* \< .05, whereas age was not a significant predictor, *p* \> .05. The Reappraisal × Age interaction was **not** statistically significant, *b* = `r round(coef(summary(ex2))[grep(":", rownames(coef(summary(ex2)))), "Estimate"], 2)`, *SE* = `r round(coef(summary(ex2))[grep(":", rownames(coef(summary(ex2)))), "Std. Error"], 2)`, *t* = `r round(coef(summary(ex2))[grep(":", rownames(coef(summary(ex2)))), "t value"], 2)`, *p* \> .05, suggesting that the strength of the association between reappraisal and depressive symptoms did not differ by adolescent age.
+To test whether age moderated these associations, two interaction models were estimated. The interaction plots are shown in Figure 3. In the first model, cognitive reappraisal, age, and their interaction were entered as predictors. The overall model was significant, *F*(3, `r ex2_df2`) = `r round(ex2_f, 2)`, *p* \< .001, explaining `r round(ex2_r2, 2)` of the variance. Greater reappraisal use predicted lower depressive symptoms, *b* = `r round(ex2_b_reapp, 2)`, *SE* = `r round(ex2_se_reapp, 2)`, *t* = `r round(ex2_t_reapp, 2)`, *p* \< .05, whereas age was not a significant predictor, *p* \> .05. The Reappraisal × Age interaction was **not** statistically significant, *b* = `r round(ex2_int_b, 2)`, *SE* = `r round(ex2_int_se, 2)`, *t* = `r round(ex2_int_t, 2)`, *p* \> .05, suggesting that the strength of the association between reappraisal and depressive symptoms did not differ by adolescent age.
 
-A second moderation model examined whether age moderated the association between expressive suppression and depressive symptoms. The model was significant overall, *F*(3, `r df.residual(ex3)`) = `r round(summary(ex3)$fstatistic[1], 2)`, *p* \< .001, accounting for `r round(summary(ex3)$r.squared, 2)` of the variance. However, neither suppression nor age significantly predicted depressive symptoms, and the Suppression × Age interaction was non-significant (*p* \> .05), indicating that age did not modify the relation between expressive suppression and depressive symptoms.
+A second moderation model examined whether age moderated the association between expressive suppression and depressive symptoms. The model was significant overall, *F*(3, `r ex3_df2`) = `r round(ex3_f, 2)`, *p* \< .001, accounting for `r round(ex3_r2, 2)` of the variance. However, neither suppression nor age significantly predicted depressive symptoms, and the Suppression × Age interaction was non-significant (*p* \> .05), indicating that age did not modify the relation between expressive suppression and depressive symptoms.
+
+### Table 3. Model Summaries for Multiple Regression and Interaction Models
 
 ```{r}
 
@@ -361,11 +416,11 @@ modelsummary(
     "erq_suppression_total"   = "Suppression (ERQ)",
     "erq_reappraisal_total:W1_mean_age" = "Reappraisal x Age",
     "erq_suppression_total:W1_mean_age" = "Suppression x Age"),
-  stars = TRUE,
-  title = "Table 3. Model Summaries for Multiple Regression and Interaction Models"
+  stars = TRUE
   )
 ```
 
+### Figure 4
 ```{r}
 # Interaction between Reappraisal and Depression
 df_final2 <- df_final %>%
@@ -396,7 +451,7 @@ ggplot(
     x="Reappraisal",
     y="Depression",
     linetype="Age Group",
-    title = "Figure 3. Interaction of Reappraisal and Age Predicting Depression Symptoms"
+    title = "Interaction of Reappraisal and Age Predicting Depression Symptoms"
   )+
   scale_linetype_manual(values = c("solid","dashed"))+
   theme_classic(base_size = 11)+
@@ -404,7 +459,9 @@ ggplot(
     legend.position = "bottom",
     legend.key = element_blank()
   )
-
+```
+### Figure 5
+```{r}
 #Suppression and Depression
 
 ggplot(
@@ -449,7 +506,7 @@ Importantly, these associations persisted when the two strategies were modeled t
 
 ## Developmental Considerations and Age as a Moderator
 
-Exploratory analyses further revealed that age did not moderate the association between reappraisal and depressive symptoms. Although reappraisal was associated with lower depressive symptoms across the full sample, this protective association appeared weaker among older adolescents; however, this result was not statistically significant. Thus, it is possible that that developmental changes in emotional, cognitive, or social processes may influence the effectiveness with which reappraisal is deployed across the early and later stages of adolescence; however, more research is needed to investigate this potential moderation effect, particularly across a larger range of adolescents. For instance, younger adolescents may benefit more from cognitive reframing strategies as they begin to encounter more complex emotional challenges. In contrast, older adolescents may increasingly rely on a broader set of regulatory skills or face social contexts that diminish the effectiveness of reappraisal. This finding is consistent with conceptual models that propose early adolescence as a sensitive period for the development of ER skills \[@silvers2022\] and underscores the importance of strengthening adaptive regulation strategies before adolescence progresses further.
+Exploratory analyses further revealed that age did not moderate the association between reappraisal and depressive symptoms. Although reappraisal was associated with lower depressive symptoms across the full sample, this protective association appeared weaker among older adolescents; however, this result was not statistically significant. Thus, it is possible that that developmental changes in emotional, cognitive, or social processes may influence the effectiveness with which reappraisal is deployed across the early and later stages of adolescence; however, more research is needed to investigate this potential moderation effect, particularly across a larger range of adolescents. For instance, younger adolescents may benefit more from cognitive reframing strategies as they begin to encounter more complex emotional challenges. In contrast, older adolescents may increasingly rely on a broader set of regulatory skills or face social contexts that diminish the effectiveness of reappraisal. This finding is consistent with conceptual models that propose early adolescence as a sensitive period for the development of ER skills [@silvers2022] and underscores the importance of strengthening adaptive regulation strategies before adolescence progresses further.
 
 Moreover, age did not moderate the association between expressive suppression and depressive symptoms. Suppression was linked to elevated depressive symptoms regardless of age. This suggests that suppression may function as a consistently maladaptive strategy across early adolescence, possibly because it interferes with emotional expression, social connectedness, and psychological flexibility in ways that are detrimental at any age during this developmental period.
 
