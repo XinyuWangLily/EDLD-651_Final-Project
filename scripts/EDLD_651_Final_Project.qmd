@@ -181,7 +181,7 @@ ER has been identified as a transdiagnostic factor in both internalizing and ext
 
 ## Aims and Hypotheses
 
-We aimed to examine the association between emotion regulation strategies (reappraisal and suppression) and depressive symptoms among young adolescent girls, and we predicted 1) higher reappraisal usage will be associated with lower depressive symptoms, and 2) higher suppression usage will be associated with higher depressive symptoms. Additionally, exploratory analyses examined whether each ER strategy remained associated with depressive symptoms when adjusting for the other strategy, and whether age moderated these associations.
+We aimed to examine the association between emotion regulation strategies (reappraisal and suppression) and depressive symptoms among young adolescent girls, and we predicted 1). higher reappraisal usage will be associated with lower depressive symptoms, and 2). higher suppression usage will be associated with higher depressive symptoms. Additionally, exploratory analyses examined whether each ER strategy remained associated with depressive symptoms when adjusting for the other strategy, and whether age moderated these associations.
 
 # Method
 
@@ -350,7 +350,7 @@ ex3_int_t <- coef(summary(ex3))["erq_suppression_total:W1_mean_age", "t value"]
 
 The results of associations between emotion regulation strategies and depression are reported in Table 2. The association between cognitive reappraisal and depression is shown in Figure 1. A linear regression model was estimated predicting depressive symptoms from cognitive reappraisal. The overall model was significant, *F*(1, `r rq1_df2`) = `r round(rq1_f, 2)`, *p* \< .001, and accounted for approximately `r round(rq1_r2, 2)*100`% of the variance in depressive symptoms (*R*² = `r round(rq1_r2, 2)`). Cognitive reappraisal significantly predicted depressive symptoms, such that greater use of reappraisal was associated with lower symptom severity, *b* = `r round(rq1_b, 2)`, *SE* = `r round(rq1_se, 2)`, *t* = `r round(rq1_t, 2)`, *p* \< .001.
 
-The association between expressive suppression and depression is shown in Table 2. A linear regression was conducted to assess the relation between expressive suppression and depressive symptoms. The model was significant, *F*(1, `r rq2_df2`) = `r round(rq2_f, 2)`, *p* \< .001, accounting for about `r round(rq2_r2, 2)*100`% of the variance in depressive symptoms (*R*² = `r round(rq2_r2, 2)`). Expressive suppression significantly predicted depressive symptoms, with higher suppression associated with higher symptom scores, *b* = `r round(rq2_b, 2)`, *SE* = `r round(rq2_se, 2)`, *t* = `r round(rq2_t, 2)`, *p* \< .001.
+The association between expressive suppression and depression is shown in Figure 2. A linear regression was conducted to assess the relation between expressive suppression and depressive symptoms. The model was significant, *F*(1, `r rq2_df2`) = `r round(rq2_f, 2)`, *p* \< .001, accounting for about `r round(rq2_r2, 2)*100`% of the variance in depressive symptoms (*R*² = `r round(rq2_r2, 2)`). Expressive suppression significantly predicted depressive symptoms, with higher suppression associated with higher symptom scores, *b* = `r round(rq2_b, 2)`, *SE* = `r round(rq2_se, 2)`, *t* = `r round(rq2_t, 2)`, *p* \< .001.
 
 ### Table 2. Model Summary for RQ1 and RQ2
 
@@ -369,7 +369,7 @@ modelsummary(
   )
 ```
 
-### Figure 2
+### Figure 1
 
 ```{r}
 ## Plots
@@ -382,7 +382,7 @@ ggplot(df_final, aes(x=erq_reappraisal_total, y=ces_dc_total_75perc))+
 
 ```
 
-### Figure 3
+### Figure 2
 
 ```{r}
 
@@ -422,7 +422,7 @@ modelsummary(
   )
 ```
 
-### Figure 4
+### Figure 3
 
 ```{r}
 # Interaction between Reappraisal and Depression
@@ -464,7 +464,7 @@ ggplot(
   )
 ```
 
-### Figure 5
+### Figure 4
 
 ```{r}
 #Suppression and Depression
